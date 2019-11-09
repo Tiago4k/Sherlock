@@ -4,10 +4,9 @@ from imageio import imread
 from tqdm import tqdm
 
 
-def load_img_array(path_to_reals, path_to_fakes):
-    """ 
-    Returns a numpy array of all image names.
-    """
+def load_img_name_array(path_to_reals, path_to_fakes):
+    """Returns a numpy array of all image names."""
+
     real_images = os.listdir(path_to_reals)
     tamp_images = os.listdir(path_to_fakes)
     image_names = []
@@ -21,9 +20,7 @@ def load_img_array(path_to_reals, path_to_fakes):
 
 
 def load_train_array(path_to_train_reals, path_to_train_fakes, x_train):
-    """
-    Returns an array of training images.
-    """
+    """Returns an array of training images."""
     x_train_images = []
 
     for i in tqdm(x_train):
@@ -40,9 +37,8 @@ def load_train_array(path_to_train_reals, path_to_train_fakes, x_train):
 
 
 def load_test_array(path_to_test_reals, path_to_test_fakes, x_test):
-    """
-    Returns an array of test images.
-    """
+    """Returns an array of test images."""
+
     x_test_images = []
 
     for i in tqdm(x_test):
@@ -56,3 +52,13 @@ def load_test_array(path_to_test_reals, path_to_test_fakes, x_test):
     x_test_images = np.array(x_test_images)
 
     return x_test_images
+
+
+def load_img_array(path):
+    """Returns an array of all images.
+
+    Params: 
+    path = path of train or test directories.
+    """
+    for i in os.listdir(path):
+        pass

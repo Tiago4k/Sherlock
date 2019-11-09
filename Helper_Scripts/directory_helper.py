@@ -4,9 +4,7 @@ from tqdm import tqdm
 
 
 def make_train_test_dir():
-    """
-    Creates all needed directories to place the train/test splitted images into.
-    """
+    """Creates all needed directories to place the train/test splitted images into."""
 
     cwd = os.getcwd()
     new_dir = cwd + '/Dataset/MICC-F2000/'
@@ -60,10 +58,9 @@ def make_train_test_dir():
 
 
 def create_directory(directory, sub_folder=None):
-    """
-    Params: directory to create, optional=sub_folder.
+    """Creates new directories and subfolders. Deletes any MacOS auto generated files(.DS_Store).
 
-    Creates new directories and subfolders. Deletes any MacOS auto generated files(.DS_Store).
+    Params: directory to create, optional=sub_folder.
     """
 
     if(sub_folder == None):
@@ -76,9 +73,7 @@ def create_directory(directory, sub_folder=None):
 
 
 def delete_dir_files(directory):
-    """
-    Deletes any files found in a directory.
-    """
+    """Deletes any files found in a directory."""
 
     folder = os.listdir(directory)
     for f in tqdm(folder):
@@ -88,9 +83,7 @@ def delete_dir_files(directory):
 
 
 def move_to_train_folder(x_train, y_train, src_reals, src_fakes, dest_reals, dest_fakes):
-    """
-    Places train splitted images into the correct Train/Authentic - Train/Tampered directories. 
-    """
+    """Places train splitted images into the correct Train/Authentic - Train/Tampered directories."""
     for i, x in tqdm(enumerate(x_train)):
         if(y_train[i] == 0):
             shutil.copy(src_reals + x, dest_reals + x)
@@ -101,9 +94,7 @@ def move_to_train_folder(x_train, y_train, src_reals, src_fakes, dest_reals, des
 
 
 def move_to_test_folder(x_test, y_test, src_reals, src_fakes, dest_reals, dest_fakes):
-    """
-    Places test splitted images into the correct Test/Authentic - Test/Tampered directories. 
-    """
+    """Places test splitted images into the correct Test/Authentic - Test/Tampered directories."""
     for i, x in tqdm(enumerate(x_test)):
         if(y_test[i] == 0):
             shutil.copy(src_reals + x, dest_reals + x)
