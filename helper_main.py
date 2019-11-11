@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import shutil
-import cv2 as cv2
 import constant as const
 import Helper_Scripts.directory_helper as dh
 from Helper_Scripts.image_loader import load_train_array, load_test_array, load_img_name_array
@@ -34,12 +33,3 @@ print(dh.move_to_train_folder(x_train, y_train, const.PATH_TO_REALS,
 
 print(dh.move_to_test_folder(x_test, y_test, const.PATH_TO_REALS,
                              const.PATH_TO_FAKES, const.PATH_TO_TEST_REALS, const.PATH_TO_TEST_FAKES))
-
-
-# Loads train split images into x_train_images list
-x_train_images = load_train_array(
-    const.PATH_TO_TRAIN_REALS, const.PATH_TO_TRAIN_FAKES, x_train)
-
-# Loads test split images into x_test_images list
-x_test_images = load_test_array(
-    const.PATH_TO_TEST_REALS, const.PATH_TO_TEST_FAKES, x_test)
