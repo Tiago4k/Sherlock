@@ -1,7 +1,10 @@
 import os
+import random
 import numpy as np
 from imageio import imread
 from tqdm import tqdm
+import cv2 as cv2
+import constant as const
 
 
 def load_img_name_array(path_to_reals, path_to_fakes):
@@ -19,46 +22,26 @@ def load_img_name_array(path_to_reals, path_to_fakes):
     return image_names
 
 
-def load_train_array(path_to_train_reals, path_to_train_fakes, x_train):
-    """Returns an array of training images."""
-    x_train_images = []
-
-    for i in tqdm(x_train):
-        try:
-            img = imread(path_to_train_reals + i)
-        except FileNotFoundError:
-            img = imread(path_to_train_fakes + i)
-
-        x_train_images.append(img)
-
-    x_train_images = np.array(x_train_images)
-
-    return x_train_images
-
-
-def load_test_array(path_to_test_reals, path_to_test_fakes, x_test):
-    """Returns an array of test images."""
-
-    x_test_images = []
-
-    for i in tqdm(x_test):
-        try:
-            img = imread(path_to_test_reals + i)
-        except FileNotFoundError:
-            img = imread(path_to_test_fakes + i)
-
-        x_test_images.append(img)
-
-    x_test_images = np.array(x_test_images)
-
-    return x_test_images
-
-
 def load_img_array(path):
     """Returns an array of all images.
 
     Params: 
     path = path of train or test directories.
     """
-    for i in os.listdir(path):
-        pass
+    images = []
+
+    for folder in os.listdir(path):
+        for i in tqdm(os.listdir(path + folder + '/')):
+            img = read_img(i, path + folder + '/')
+            images.append(img)
+
+    images = np.array(images)
+
+    return images
+
+
+def read_img(img_name, train_or_test):
+    """Reads an image and resizes it accordingly"""
+
+    img = cv2.imread(train_or_test + img_name)
+    return cv2.resize(img, (const.IMG_WIDTH, const.IMG_HEIGHT))
