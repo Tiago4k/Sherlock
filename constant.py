@@ -10,6 +10,8 @@ PATH_TO_TRAIN_REALS = cwd + '/Dataset/MICC-F2000/Train/Authentic/'
 PATH_TO_TRAIN_FAKES = cwd + '/Dataset/MICC-F2000/Train/Tampered/'
 PATH_TO_TEST_REALS = cwd + '/Dataset/MICC-F2000/Test/Authentic/'
 PATH_TO_TEST_FAKES = cwd + '/Dataset/MICC-F2000/Test/Tampered/'
+PATH_TO_TRAIN = cwd + '/Dataset/MICC-F2000/Train/'
+PATH_TO_TEST = cwd + '/Dataset/MICC-F2000/Test/'
 
 IMG_WIDTH = 224
 IMG_HEIGHT = 224
