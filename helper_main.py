@@ -3,7 +3,7 @@ import numpy as np
 import shutil
 import constant as const
 import Helper_Scripts.directory_helper as dh
-from Helper_Scripts.image_loader import load_train_array, load_test_array, load_img_name_array
+from Helper_Scripts.image_loader import load_img_name_array
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
