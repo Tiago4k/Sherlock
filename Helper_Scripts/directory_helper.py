@@ -82,23 +82,12 @@ def delete_dir_files(directory):
             print('File "{}" removed!'.format(f))
 
 
-def move_to_train_folder(x_train, y_train, src_reals, src_fakes, dest_reals, dest_fakes):
+def move_to_folder(x_, y_, src_reals, src_fakes, dest_reals, dest_fakes):
     """Places train splitted images into the correct Train/Authentic - Train/Tampered directories."""
-    for i, x in tqdm(enumerate(x_train)):
-        if(y_train[i] == 0):
-            shutil.copy(src_reals + x, dest_reals + x)
-        elif(y_train[i] == 1):
-            shutil.copy(src_fakes + x, dest_fakes + x)
+    for i, x in tqdm(enumerate(x_)):
+        if(y_[i] == 0):
+            shutil.move(src_reals + x, dest_reals + x)
+        elif(y_[i] == 1):
+            shutil.move(src_fakes + x, dest_fakes + x)
 
-    return 'Train Move Complete!'
-
-
-def move_to_test_folder(x_test, y_test, src_reals, src_fakes, dest_reals, dest_fakes):
-    """Places test splitted images into the correct Test/Authentic - Test/Tampered directories."""
-    for i, x in tqdm(enumerate(x_test)):
-        if(y_test[i] == 0):
-            shutil.copy(src_reals + x, dest_reals + x)
-        elif(y_test[i] == 1):
-            shutil.copy(src_fakes + x, dest_fakes + x)
-
-    return 'Test Move Complete!'
+    return 'Move Complete!'
