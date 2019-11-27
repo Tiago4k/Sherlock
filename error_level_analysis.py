@@ -3,8 +3,10 @@ import os
 from PIL import Image, ImageChops, ImageEnhance
 from pylab import *
 
+cwd = os.getcwd()
 
-def convert_to_ela(path, quality=90):
+
+def convert_to_ela(path, resaved_dir=None, quality=95):
     """Converts image by intentionally resaving an image at a known error rate and then computing the difference
     between the two images.
 
@@ -15,7 +17,6 @@ def convert_to_ela(path, quality=90):
 
     fname = path
     resaved_fname = fname.split('.')[0] + '.resaved.jpg'
-
     ela_fname = fname.split('.')[0] + '.ela.png'
 
     img = Image.open(fname).convert('RGB')
@@ -34,5 +35,7 @@ def convert_to_ela(path, quality=90):
     scale = 255.0 / max_diff
 
     ela_img = ImageEnhance.Brightness(ela_img).enhance(scale)
+
+    ela_img.save(ela_fname, 'PNG')
 
     return ela_img
