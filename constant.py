@@ -13,5 +13,7 @@ PATH_TO_VALID_REALS = cwd + '/Dataset/CASIA-V2/Valid/Authentic/'
 PATH_TO_VALID_FAKES = cwd + '/Dataset/CASIA-V2/Valid/Tampered/'
 PATH_TO_TEST_REALS = cwd + '/Dataset/CASIA-V2/Test/Authentic/'
 PATH_TO_TEST_FAKES = cwd + '/Dataset/CASIA-V2/Test/Tampered/'
+
 PATH_TO_TRAIN = cwd + '/Dataset/CASIA-V2/Train/'
+PATH_TO_VALID = cwd + '/Dataset/CASIA-V2/Valid/'
 PATH_TO_TEST = cwd + '/Dataset/CASIA-V2/Test/'
