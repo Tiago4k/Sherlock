@@ -1,13 +1,63 @@
 import os
+import shutil
 import cv2 as cv2
+from tqdm import tqdm
+
 import constant as const
-import matplotlib.pyplot as plt
-from Helper_Scripts.image_loader import load_img_array
+import Helper_Scripts.directory_helper as dh
+from error_level_analysis import convert_to_ela
+
+cwd = os.getcwd()
+resaved_root_dir = cwd + '/Dataset/CASIA-Resaved/'
 
 
-img_train_array = load_img_array(const.PATH_TO_TRAIN)
-img_test_array = load_img_array(const.PATH_TO_TEST)
+def convert_all_to_ela(baseDir, folder, subfolder):
+    """ Params:
+    folder: string value, folder where resaved images will be stored
+    """
+
+    for root, dirs, files in tqdm(os.walk(baseDir)):
+        for fname in files:
+            img_path = os.path.join(root, fname)
+            img = cv2.imread(img_path)
+            path = resaved_root_dir + folder + '/' + subfolder + '/'
+            convert_to_ela(img_path, path)
 
 
-# plt.imshow(img_array[1])
-# plt.show()
+def move_to_ela_folder(src, dest):
+    """Places train splitted images into the correct Train/Authentic - Train/Tampered directories."""
+    folder = os.listdir(src)
+    for f in tqdm(folder):
+        if 'ela' in f:
+            shutil.move(src + f, dest + f)
+            print('File "{}" moved to "{}"!'.format(f, dest))
+
+
+def delete_resaved_files(directory):
+    """Deletes any files found in a directory."""
+
+    folder = os.listdir(directory)
+    for f in tqdm(folder):
+        if(os.path.isfile(directory + f)):
+            if 'resaved' in f or 'ela' in f:
+                os.remove(directory + f)
+                print('File "{}" removed!'.format(f))
+
+
+if __name__ == "__main__":
+
+    # convert_all_to_ela(const.PATH_TO_VALID_REALS, 'Valid', 'Authentic')
+    # print('done')
+    # move_to_ela_folder(src3, dest3)
+
+    # convert_all_to_ela(const.PATH_TO_VALID_FAKES, 'Valid', 'Tampered')
+    # print('done!')
+    # move_to_ela_folder(src2, dest2)
+
+    # delete_resaved_files(const.PATH_TO_TEST_REALS)
+    # delete_resaved_files(const.PATH_TO_TEST_FAKES)
+    # delete_resaved_files(const.PATH_TO_VALID_REALS)
+    # delete_resaved_files(const.PATH_TO_VALID_FAKES)
+    # delete_resaved_files(const.PATH_TO_TRAIN_REALS)
+    # delete_resaved_files(const.PATH_TO_TRAIN_FAKES)
+    pass
