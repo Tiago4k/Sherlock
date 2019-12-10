@@ -13,7 +13,7 @@ def convert_to_ela(path, resaved_dir=None, quality=95):
 
     Params:
     path: path to the image to be converted using ELA
-    quality: quality in which to resave the image to. Defaults to 90%.
+    quality: quality in which to resave the image to. Defaults to 95%.
     """
 
     fname = path
@@ -42,12 +42,18 @@ def convert_to_ela(path, resaved_dir=None, quality=95):
     return ela_img
 
 
-def downscale_image(input_img):
+def downscale_image(input_img, width=384.0):
+    """Resizes an image to a desired size.
+    Params: 
+    input_img: string Image to be resized.
+    width: float value. Defaults to 384.0
+    """
 
     img = cv2.imread(input_img, cv2.IMREAD_UNCHANGED)
 
-    ratio = 384.0 / img.shape[1]
-    new_dim = (384, int(img.shape[0] * ratio))
+    ratio = width / img.shape[1]
+    width = int(width)
+    new_dim = (width, int(img.shape[0] * ratio))
 
     resized = cv2.resize(img, new_dim, interpolation=cv2.INTER_AREA)
 
