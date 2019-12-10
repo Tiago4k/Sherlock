@@ -57,5 +57,4 @@ def downscale_image(input_img, width=384.0):
 
     resized = cv2.resize(img, new_dim, interpolation=cv2.INTER_AREA)
 
-    cv2.imshow('Resized', resized)
-    cv2.waitKey(0)
+    return resized

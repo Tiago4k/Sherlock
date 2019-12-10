@@ -62,4 +62,4 @@ if __name__ == "__main__":
     # delete_resaved_files(const.PATH_TO_TRAIN_FAKES)
     img_path = '/Users/tiagoramalho/Downloads/Demo_Images/test_resize.jpg'
 
-    downscale_image(img_path, 400)
+    downscale_image(img_path, 600)
