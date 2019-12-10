@@ -1,5 +1,6 @@
 import os
 
+import cv2
 from PIL import Image, ImageChops, ImageEnhance
 from pylab import *
 
@@ -39,3 +40,16 @@ def convert_to_ela(path, resaved_dir=None, quality=95):
     ela_img.save(ela_fname, 'PNG')
 
     return ela_img
+
+
+def downscale_image(input_img):
+
+    img = cv2.imread(input_img, cv2.IMREAD_UNCHANGED)
+
+    ratio = 384.0 / img.shape[1]
+    new_dim = (384, int(img.shape[0] * ratio))
+
+    resized = cv2.resize(img, new_dim, interpolation=cv2.INTER_AREA)
+
+    cv2.imshow('Resized', resized)
+    cv2.waitKey(0)

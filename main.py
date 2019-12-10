@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 import constant as const
 import Helper_Scripts.directory_helper as dh
-from error_level_analysis import convert_to_ela
+from image_converter import convert_to_ela, downscale_image
 
 cwd = os.getcwd()
 resaved_root_dir = cwd + '/Dataset/CASIA-Resaved/'
@@ -60,4 +60,6 @@ if __name__ == "__main__":
     # delete_resaved_files(const.PATH_TO_VALID_FAKES)
     # delete_resaved_files(const.PATH_TO_TRAIN_REALS)
     # delete_resaved_files(const.PATH_TO_TRAIN_FAKES)
-    pass
+    img_path = '/Users/tiagoramalho/Downloads/Demo_Images/test_resize.jpg'
+
+    downscale_image(img_path)
