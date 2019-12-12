@@ -50,4 +50,4 @@ def read_img(img_name, train_or_test):
 
 
 if __name__ == '__main__':
-    print(const.PATH_TO_FAKES)
+    pass
