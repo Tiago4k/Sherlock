@@ -1,9 +1,10 @@
 import os
 import shutil
+
 import cv2 as cv2
 from tqdm import tqdm
 
-import constant as const
+import Backend.Constants.const as const
 import Helper_Scripts.directory_helper as dh
 from ServerSide.image_converter import ImageHandler
 

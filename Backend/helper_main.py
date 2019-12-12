@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 
-import Backend.constant as const
+import Backend.Constants.const as const
 import Backend.Helper_Scripts.directory_helper as dh
 from Backend.Helper_Scripts.image_loader import load_img_name_array
 
