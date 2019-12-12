@@ -5,9 +5,9 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 
-import constant as const
-import Helper_Scripts.directory_helper as dh
-from Helper_Scripts.image_loader import load_img_name_array
+import Backend.constant as const
+import Backend.Helper_Scripts.directory_helper as dh
+from Backend.Helper_Scripts.image_loader import load_img_name_array
 
 # Display total images for each category
 print('Number of Tampered = {}'.format(len(os.listdir(const.PATH_TO_FAKES))))

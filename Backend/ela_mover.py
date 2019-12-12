@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 import constant as const
 import Helper_Scripts.directory_helper as dh
-from image_converter import convert_to_ela, downscale_image
+from image_converter import ImageHandler
 
 cwd = os.getcwd()
 resaved_root_dir = cwd + '/Dataset/CASIA-Resaved/'
@@ -21,7 +21,7 @@ def convert_all_to_ela(baseDir, folder, subfolder):
             img_path = os.path.join(root, fname)
             img = cv2.imread(img_path)
             path = resaved_root_dir + folder + '/' + subfolder + '/'
-            convert_to_ela(img_path, path)
+            # convert_to_ela(img_path, path)
 
 
 def move_to_ela_folder(src, dest):
@@ -62,4 +62,9 @@ if __name__ == "__main__":
     # delete_resaved_files(const.PATH_TO_TRAIN_FAKES)
     img_path = '/Users/tiagoramalho/Downloads/Demo_Images/test_resize.jpg'
 
-    downscale_image(img_path, 600)
+    img_obj = ImageHandler(img_path, width=500)
+
+    my_resized_img = img_obj.resize_image()
+
+    cv2.imshow("Resized", my_resized_img)
+    cv2.waitKey(0)

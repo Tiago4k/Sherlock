@@ -4,7 +4,7 @@ import numpy as np
 from imageio import imread
 from tqdm import tqdm
 import cv2 as cv2
-import constant as const
+import Backend.constant as const
 
 
 def load_img_name_array(path_to_reals, path_to_fakes):
