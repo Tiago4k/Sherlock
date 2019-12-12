@@ -4,7 +4,7 @@ import shutil
 import cv2 as cv2
 from tqdm import tqdm
 
-import Backend.Constants.const as const
+import Constants.const
 import Helper_Scripts.directory_helper as dh
 from ServerSide.image_converter import ImageHandler
 
@@ -61,6 +61,7 @@ if __name__ == "__main__":
     # delete_resaved_files(const.PATH_TO_VALID_FAKES)
     # delete_resaved_files(const.PATH_TO_TRAIN_REALS)
     # delete_resaved_files(const.PATH_TO_TRAIN_FAKES)
+
     img_path = '/Users/tiagoramalho/Downloads/Demo_Images/test_resize.jpg'
 
     img_obj = ImageHandler(img_path, width=500)
