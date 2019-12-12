@@ -15,7 +15,8 @@ class ImageHandler:
         self.width = width
 
     def convert_to_ela(self, resaved_dir=None):
-        """Converts image by intentionally resaving an image at a known error rate and then computing the difference
+        """ Returns ela filename as a string.
+        Converts image by intentionally resaving an image at a known error rate and then computing the difference
         between the two images.
 
         Params:
@@ -46,7 +47,7 @@ class ImageHandler:
 
         ela_img.save(ela_fname, 'PNG')
 
-        return ela_img
+        return ela_fname
 
     def resize_image(self):
         """Resizes an image to a desired size.
