@@ -6,7 +6,7 @@ import numpy as np
 from imageio import imread
 from tqdm import tqdm
 
-import Backend.Constants.const as const
+from ..Constants import const
 
 
 def load_img_name_array(path_to_reals, path_to_fakes):
@@ -47,3 +47,7 @@ def read_img(img_name, train_or_test):
 
     img = cv2.imread(train_or_test + img_name)
     return cv2.resize(img, (const.IMG_WIDTH, const.IMG_HEIGHT))
+
+
+if __name__ == '__main__':
+    print(const.PATH_TO_FAKES)
