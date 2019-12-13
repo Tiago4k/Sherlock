@@ -22,7 +22,9 @@ def convert_all_to_ela(baseDir, folder, subfolder):
             img_path = os.path.join(root, fname)
             img = cv2.imread(img_path)
             path = resaved_root_dir + folder + '/' + subfolder + '/'
-            # convert_to_ela(img_path, path)
+
+            img_obj = ImageHandler(img_path)
+            img_obj.convert_to_ela()
 
 
 def move_to_ela_folder(src, dest):
