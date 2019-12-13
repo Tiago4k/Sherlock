@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/Users/tiagoramalho/opt/anaconda3/envs/fypenv/bin/python"
+    "python.pythonPath": "/Users/tiagoramalho/opt/anaconda3/envs/fypenv/bin/python",
+    "python.condaPath": "/Users/tiagoramalho/opt/anaconda3/envs/fypenv"
 }
