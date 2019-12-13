@@ -65,3 +65,13 @@ class ImageHandler:
         resized = cv2.resize(img, new_dim, interpolation=cv2.INTER_AREA)
 
         return resized
+
+    def delete_resaved_files(self, fname):
+        """Deletes resaved files produced by ela in the current working directory."""
+        cwd = os.getcwd()
+        filename = fname.split('.')
+        folder = os.listdir(cwd)
+        for f in folder:
+            if filename[0] in f:
+                os.remove(cwd + '/' + f)
+                print('File "{}" removed!'.format(f))
