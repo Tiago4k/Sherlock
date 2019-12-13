@@ -4,9 +4,9 @@ import shutil
 import cv2 as cv2
 from tqdm import tqdm
 
-import Constants.const
-import Helper_Scripts.directory_helper as dh
-from ServerSide.image_converter import ImageHandler
+from ..Constants import const
+import directory_helper as dh
+from ..ServerSide.image_converter import ImageHandler
 
 cwd = os.getcwd()
 resaved_root_dir = cwd + '/Dataset/CASIA-Resaved/'
