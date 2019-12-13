@@ -1,15 +1,16 @@
 import os
 import shutil
+import sys
 
 import cv2 as cv2
 from tqdm import tqdm
 
-from ..Constants import const
 import directory_helper as dh
-from image_converter import ImageHandler
+from Constants import const
 
 cwd = os.getcwd()
-resaved_root_dir = cwd + '/Dataset/CASIA-Resaved/'
+sys.path.insert(1, cwd + '/Backend/ServerSide')
+from image_converter import ImageHandler
 
 
 def convert_all_to_ela(baseDir, folder, subfolder):
@@ -49,6 +50,7 @@ def delete_resaved_files(directory):
 
 if __name__ == "__main__":
 
+    resaved_root_dir = cwd + '/Dataset/CASIA-Resaved/'
     # convert_all_to_ela(const.PATH_TO_VALID_REALS, 'Valid', 'Authentic')
     # print('done')
     # move_to_ela_folder(src3, dest3)
