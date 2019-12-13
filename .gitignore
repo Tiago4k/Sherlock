@@ -1,6 +1,3 @@
-# Ignore Mac system files
-.DS_Store
-
 # Ignore Dataset folder
 Dataset
 Dataset.zip
@@ -9,3 +6,5 @@ Model Weights
 
 REDUNDANT_image_seperator.py
 export.pkl
+2export.pkl
+.DS_Store
