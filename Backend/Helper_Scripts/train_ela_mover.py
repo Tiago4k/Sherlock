@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 from ..Constants import const
 import directory_helper as dh
-from ..ServerSide.image_converter import ImageHandler
+from image_converter import ImageHandler
 
 cwd = os.getcwd()
 resaved_root_dir = cwd + '/Dataset/CASIA-Resaved/'
