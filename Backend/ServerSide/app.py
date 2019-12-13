@@ -41,19 +41,9 @@ class Prediction(Resource):
             'Confidence': confidence
         }
 
-        delete_resaved_files(os.getcwd(), filename)
+        img_obj.delete_resaved_files(filename)
 
         return jsonify(resp)
-
-
-def delete_resaved_files(directory, fname):
-    """Deletes any files found in a directory."""
-    filename = fname.split('.')
-    folder = os.listdir(directory)
-    for f in folder:
-        if filename[0] in f:
-            os.remove(directory + '/' + f)
-            print('File "{}" removed!'.format(f))
 
 
 api.add_resource(Prediction, '/')

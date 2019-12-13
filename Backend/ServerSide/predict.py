@@ -30,19 +30,3 @@ def get_prediction(path):
         return (pred_class, conf)
 
     return 0
-
-
-if __name__ == '__main__':
-
-    # img_path = '/Users/tiagoramalho/Downloads/Demo_Images/mercedes.jpg'
-    # img_obj = ImageHandler(path=img_path)
-
-    # ela_img = img_obj.convert_to_ela()
-    # result = get_prediction(ela_img)
-
-    # print('*' * 100)
-    # print('Prediction: {}'.format(result[0]))
-    # print('Confidence: {:.3f}%'.format(result[1]))
-    # print('*' * 100)
-
-    pass
