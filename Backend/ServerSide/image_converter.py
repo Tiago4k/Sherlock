@@ -66,10 +66,10 @@ class ImageHandler:
 
         return resized
 
-    def delete_resaved_files(self, fname):
+    def delete_resaved_files(self):
         """Deletes resaved files produced by ela in the current working directory."""
         cwd = os.getcwd()
-        filename = fname.split('.')
+        filename = self.path.split('.')
         folder = os.listdir(cwd)
         for f in folder:
             if filename[0] in f:
@@ -82,6 +82,22 @@ class ImageHandler:
         uploads_path = cwd + '/Backend/ServerSide/Uploads/'
         folder = os.listdir(src)
         for f in (folder):
-            if 'ela' in f:
+            if 'overlay' in f:
                 shutil.move(src + '/' + f, uploads_path + f)
                 print('File "{}" moved to "{}"!'.format(f, uploads_path))
+
+    def image_overlay(self, ela_image):
+
+        img = Image.open(self.path)
+        fname = self.path.split('.')[0]
+        fname_png = fname + '.png'       
+        img.save(fname_png, 'PNG')
+
+        image_background = Image.open(fname_png).convert('RGBA')
+        image_overlay = Image.open(ela_image).convert('RGBA')
+
+        ela_overlay = fname + '.ela_overlay.png' 
+
+        Image.blend(image_background, image_overlay, alpha=0.7).save(ela_overlay)
+
+        return ela_overlay

@@ -1,14 +1,15 @@
-import os
+import base64
 import json
+import os
 
-from flask import Flask, Response, jsonify, request, send_from_directory
+from flask import Flask, Response, jsonify, request, send_file
 from flask_cors import CORS
 from flask_restful import Api, Resource
-from werkzeug.utils import secure_filename
 from werkzeug.exceptions import BadRequest
+from werkzeug.utils import secure_filename
 
-from predict import get_prediction
 from image_converter import ImageHandler
+from predict import get_prediction
 
 app = Flask(__name__)
 CORS(app)
@@ -18,6 +19,7 @@ api = Api(app)
 class Prediction(Resource):
     
     def post(self):
+        cwd = os.getcwd()
 
         if request.files['file'] == None:
             raise BadRequest()
@@ -38,23 +40,39 @@ class Prediction(Resource):
         else:
             prediction = 'Unable to confidently provide a prediction for this image.'
             confidence = '0'
+        
+        # Cleanup function
+        img_overlay = cleanup(cwd, filename, ela_img)
 
+        # Only Encodes overlayed image if the confidence is not 0
+        if confidence != '0':
+            overlayed_image = cwd + '/Backend/ServerSide/Uploads/' + img_overlay
+            with open(overlayed_image, "rb") as img_file:
+                encoded_image = base64.b64encode(img_file.read())
+                encoded_image = encoded_image.decode('utf-8')
+        else:
+            encoded_image = ''
 
+        # Prep Response 
         resp = {
             'Status': 200,
             'Prediction': prediction,
-            'Confidence': confidence
-       }
-        
-        img_obj.move_to_uploads(os.getcwd())
-        img_obj.delete_resaved_files(filename)
+            'Confidence': confidence,
+            'EncodedImage': encoded_image
+        }
 
         return jsonify(resp)
-    
-    def get(self):
-        pass
-    
+        
 
+    
+def cleanup(cwd, filename, ela_img):
+
+    img_obj = ImageHandler(path=filename)
+    img_overlay = img_obj.image_overlay(ela_img)
+    img_obj.move_to_uploads(cwd)
+    img_obj.delete_resaved_files()
+
+    return img_overlay
 
 api.add_resource(Prediction, '/')
 
