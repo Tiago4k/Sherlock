@@ -5,6 +5,7 @@ from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 from flask_restful import Api, Resource
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import BadRequest
 
 from predict import get_prediction
 from image_converter import ImageHandler
@@ -18,7 +19,10 @@ class Prediction(Resource):
 
     def post(self):
 
-        imagefile = request.files['image']
+        if request.files['file'] == None:
+            raise BadRequest()
+
+        imagefile = request.files['file']
         filename = secure_filename(imagefile.filename)
         print('\nReceived image File name : ' + imagefile.filename)
         imagefile.save(filename)
@@ -44,9 +48,10 @@ class Prediction(Resource):
         img_obj.delete_resaved_files(filename)
 
         return jsonify(resp)
+    
 
 
 api.add_resource(Prediction, '/')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=False, host='0.0.0.0', port=8080)
