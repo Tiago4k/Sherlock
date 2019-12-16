@@ -1,7 +1,7 @@
 import os
 import json
 
-from flask import Flask, Response, jsonify, request
+from flask import Flask, Response, jsonify, request, send_from_directory
 from flask_cors import CORS
 from flask_restful import Api, Resource
 from werkzeug.utils import secure_filename
@@ -16,7 +16,7 @@ api = Api(app)
 
 
 class Prediction(Resource):
-
+    
     def post(self):
 
         if request.files['file'] == None:
@@ -39,19 +39,24 @@ class Prediction(Resource):
             prediction = 'Unable to confidently provide a prediction for this image.'
             confidence = '0'
 
+
         resp = {
             'Status': 200,
             'Prediction': prediction,
-            'Confidence': confidence
-        }
-
+            'Confidence': confidence,
+       }
+        
+        img_obj.move_to_uploads(os.getcwd())
         img_obj.delete_resaved_files(filename)
 
         return jsonify(resp)
+    
+    def get(self):
+        pass
     
 
 
 api.add_resource(Prediction, '/')
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=8080)
+    app.run(debug=True, host='0.0.0.0', port=8080)

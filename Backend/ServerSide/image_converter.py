@@ -1,5 +1,5 @@
 import os
-
+import shutil
 import cv2
 from PIL import Image, ImageChops, ImageEnhance
 from pylab import *
@@ -75,3 +75,13 @@ class ImageHandler:
             if filename[0] in f:
                 os.remove(cwd + '/' + f)
                 print('File "{}" removed!'.format(f))
+
+    def move_to_uploads(self, src):
+        """Places ela images in Uploads folder"""
+        cwd = os.getcwd()
+        uploads_path = cwd + '/Backend/ServerSide/Uploads/'
+        folder = os.listdir(src)
+        for f in (folder):
+            if 'ela' in f:
+                shutil.move(src + '/' + f, uploads_path + f)
+                print('File "{}" moved to "{}"!'.format(f, uploads_path))
