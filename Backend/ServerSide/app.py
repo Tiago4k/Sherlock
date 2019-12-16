@@ -43,7 +43,7 @@ class Prediction(Resource):
         resp = {
             'Status': 200,
             'Prediction': prediction,
-            'Confidence': confidence,
+            'Confidence': confidence
        }
         
         img_obj.move_to_uploads(os.getcwd())
