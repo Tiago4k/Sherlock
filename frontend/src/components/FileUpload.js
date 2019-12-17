@@ -1,4 +1,7 @@
 import React, { Fragment, useState } from 'react';
+import axios from 'axios';
+import Message from './Message';
+import Progress from './Progress'
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -10,6 +13,8 @@ const FileUpload = () => {
   const [filename, setFilename] = useState('Choose File');
   const [results, setResults] = useState({});
   const [uploadedFile, setUploadedFile] = useState({});
+  const [message, setMessage] = useState('');
+  const [uploadPrecentage, setUploadPrecentage] = useState(0);
 
   const onChange = e => {
     setFile(e.target.files[0]);
@@ -22,31 +27,39 @@ const FileUpload = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        body: formData
+      const response = await axios.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress: progressEvent => {
+          setUploadPrecentage(
+            parseInt(
+              Math.round((progressEvent.loaded / progressEvent.total) * 100)
+            )
+          );
+          setTimeout(() => setUploadPrecentage(0), 10000);
+        }
       });
 
-      if (!response.ok) {
-        throw new Error('Ooops, something went wrong!');
-      }
-
-      const data = await response.json();
-
-      const prediction = data['Prediction'];
-      const confidence = data['Confidence'];
-      const encodedImage = data['EncodedImage'];
+      const prediction = response.data.Prediction;
+      const confidence = response.data.Confidence;
+      const encodedImage = response.data.EncodedImage;
 
       setUploadedFile({ filename, encodedImage });
       setResults({ prediction, confidence });
-      console.log(results);
-    } catch (error) {
-      console.log('Uploading failed:', error.message);
+      setMessage('File Successfully Uploaded!');
+    } catch (err) {
+      if (err.response.status === 400) {
+        setMessage('No File Uploaded!');
+      } else if (err.response.status === 500) {
+        setMessage('There seems to be an issue with the server.');
+      }
     }
   };
 
   return (
     <Fragment>
+      {message ? <Message msg={message} /> : null}
       <form onSubmit={handleImageUpload}>
         <div className='custom-file mb-4'>
           <input
@@ -59,6 +72,7 @@ const FileUpload = () => {
             {filename}
           </label>
         </div>
+        <Progress precentage={uploadPrecentage}/>
         <input
           type='submit'
           value='Upload'
@@ -68,7 +82,7 @@ const FileUpload = () => {
       {uploadedFile ? (
         <div className='row mt-5'>
           <div className='col-md-8 m-auto'>
-            <h3 className='text-center'>{uploadedFile.fileName}</h3>
+            <h3 className='text-center'>{''}</h3>
             <Container md='auto'>
               <Row>
                 <Col sm={true}>
@@ -76,7 +90,7 @@ const FileUpload = () => {
                   <p>Confidence: {results.confidence}</p>
                 </Col>
                 <Col xl={true}>
-                  {' '}
+                  <h4 className='text-center'>{uploadedFile.filename}</h4>
                   <img
                     style={{ width: '100%' }}
                     src={'data:image/jpeg;base64,' + uploadedFile.encodedImage}
