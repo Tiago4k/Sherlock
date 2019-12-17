@@ -5,7 +5,7 @@ import os
 from flask import Flask, Response, jsonify, request, send_file
 from flask_cors import CORS
 from flask_restful import Api, Resource
-from werkzeug.exceptions import BadRequest
+from werkzeug.exceptions import BadRequest, InternalServerError
 from werkzeug.utils import secure_filename
 
 from image_converter import ImageHandler
@@ -42,7 +42,12 @@ class Prediction(Resource):
             confidence = '0'
         
         # Cleanup function
-        img_overlay = cleanup(cwd, filename, ela_img)
+        cleanup_resp = cleanup(cwd, filename, ela_img)
+
+        if cleanup_resp == 500:
+            raise InternalServerError()
+        else:
+            img_overlay = cleanup_resp
 
         # Only Encodes overlayed image if the confidence is not 0
         if confidence != '0':
@@ -69,7 +74,17 @@ def cleanup(cwd, filename, ela_img):
 
     img_obj = ImageHandler(path=filename)
     img_overlay = img_obj.image_overlay(ela_img)
-    img_obj.move_to_uploads(cwd)
+
+    """
+    Checking the return statement of move_to_uploads().If function returns None, 
+    it means that an uploads folder does not exist resulting in a internal server error. 
+    Here we return 500 so a response can be prepared to return to the client. 
+    """
+    check = img_obj.move_to_uploads(cwd)
+    if check == None:
+        img_obj.delete_resaved_files()
+        return 500
+
     img_obj.delete_resaved_files()
 
     return img_overlay

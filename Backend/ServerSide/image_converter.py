@@ -4,6 +4,7 @@ import cv2
 from PIL import Image, ImageChops, ImageEnhance
 from pylab import *
 
+
 cwd = os.getcwd()
 
 
@@ -83,8 +84,12 @@ class ImageHandler:
         folder = os.listdir(src)
         for f in (folder):
             if 'overlay' in f:
+                if not os.path.exists(uploads_path):
+                    return None
+
                 shutil.move(src + '/' + f, uploads_path + f)
                 print('File "{}" moved to "{}"!'.format(f, uploads_path))
+                return 1
 
     def image_overlay(self, ela_image):
 
