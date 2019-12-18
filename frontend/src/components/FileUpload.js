@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import axios from 'axios';
 import Message from './Message';
-import Progress from './Progress'
+import Progress from './Progress';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -72,7 +72,7 @@ const FileUpload = () => {
             {filename}
           </label>
         </div>
-        <Progress precentage={uploadPrecentage}/>
+        <Progress precentage={uploadPrecentage} />
         <input
           type='submit'
           value='Upload'

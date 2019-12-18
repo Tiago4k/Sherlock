@@ -1,15 +1,20 @@
 import React from 'react';
 import FileUpload from './components/FileUpload';
-import { faReact } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Navbar from './components/Navbar';
+import Typography from '@material-ui/core/Typography';
 import './App.css';
 
 const App = () => (
-  <div className='container mt-4'>
-    <h4 className='display-4 text-center mb-4'>
-      <FontAwesomeIcon icon={faReact} /> React File Upload
-    </h4>
-    <FileUpload />
+  <div>
+    <Navbar />
+    <div className='container mt-4'>
+      <div className='custom-file mb-3' align='center'>
+        <Typography variant='h6'> Welcome to Sherlock!</Typography>
+      </div>
+      <Typography variant='body2'>
+        <FileUpload />
+      </Typography>
+    </div>
   </div>
 );
 
