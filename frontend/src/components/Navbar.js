@@ -1,4 +1,6 @@
 import React from 'react';
+import { useAuth0 } from '../react-auth0-spa';
+// import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,8 +22,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ButtonAppBar() {
+const ButtonAppBar = () => {
   const classes = useStyles();
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
   return (
     <div className={classes.root}>
@@ -38,9 +41,26 @@ export default function ButtonAppBar() {
           <Typography variant='h5' className={classes.title}>
             Sherlock
           </Typography>
-          <Button color='inherit'>Logout</Button>
+          {!isAuthenticated && (
+            <Button color='inherit' onClick={() => loginWithRedirect({})}>
+              Log in
+            </Button>
+          )}
+          {isAuthenticated && (
+            <Button color='inherit' onClick={() => logout()}>
+              Log out
+            </Button>
+          )}
+          {/* {isAuthenticated && (
+            <span>
+              <Link to='/'>Home</Link>&nbsp;
+              <Link to='/profile'>Profile</Link>
+            </span>
+          )} */}
         </Toolbar>
       </AppBar>
     </div>
   );
-}
+};
+
+export default ButtonAppBar;

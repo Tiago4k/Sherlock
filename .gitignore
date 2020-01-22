@@ -9,3 +9,5 @@ export.pkl
 2export.pkl
 .DS_Store
 Backend/ServerSide/Uploads/
+
+auth_config.json
