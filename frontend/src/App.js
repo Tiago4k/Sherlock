@@ -1,44 +1,22 @@
 import React from 'react';
-import Navbar from './components/Navbar';
-import Card from './components/Cards/Cards';
-import Typography from '@material-ui/core/Typography';
-import './App.css';
+import Home from './pages/Home';
+import Analyse from './pages/Analyse';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { Router, Route, Switch } from 'react-router-dom';
-import Profile from './components/Profile';
-import history from './utils/history';
-import PrivateRoute from './components/PrivateRoute';
+// import Profile from './components/Profile';
+// import history from './utils/history';
+// import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
-    <div>
-      <Router history={history}>
-        <header>
-          <Navbar />
-        </header>
+    <main>
+      <Router>
         <Switch>
-          <Route path='/' exact />
-          <PrivateRoute path='/profile' component={Profile} />
+          <Route path='/' component={Home} exact />
+          <Route path='/Analyse' component={Analyse} />
         </Switch>
       </Router>
-      <div className='container mt-4'>
-        <div className='custom-file mb-3' align='center'>
-          <Typography variant='h4'>
-            {' '}
-            <br />
-            <br />
-            Welcome to Sherlock!
-            <br />
-            <br />
-          </Typography>
-        </div>
-      </div>
-      <div className='container mb-3 h-100'>
-        <div className='row h-100 justify-content-center align-items-center'>
-          <Card />
-        </div>
-      </div>
-    </div>
+    </main>
   );
 }
 
