@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import axios from 'axios';
-import Message from './Message';
+import Message from './Message/Message';
 import Progress from './Progress';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
