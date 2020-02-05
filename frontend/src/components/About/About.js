@@ -42,7 +42,7 @@ const About = () => {
                       Excepturi neque, ipsa animi maiores repellendu
                       distinctioaperiam earum dolor voluptatum consequatur
                       blanditiis inventore debitis fuga numquam voluptate
-                      architecto itaque molestiae.
+                      architecto itaque molestiae. Test.
                     </p>
                   </div>
                 </div>
