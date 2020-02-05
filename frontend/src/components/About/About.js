@@ -25,7 +25,7 @@ const About = () => {
         <div className='about-wrapper'>
           <Title title='About Me' />
 
-          <Row id={uuidv1}>
+          <Row key={uuidv1}>
             <Col lg={12} sm={12}>
               <Fade
                 left={isDesktop}
