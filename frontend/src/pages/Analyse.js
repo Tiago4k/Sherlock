@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../components/Header/Navbar';
+import Navbar from '../components/Header/Nav';
 import Card from '../components/Cards/Cards';
 import { Router, Route, Switch } from 'react-router-dom';
 import Profile from '../components/Profile';

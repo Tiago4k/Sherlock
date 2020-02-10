@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Fade from 'react-reveal/Fade';
 import Tilt from 'react-tilt';
 import { Container, Row, Col } from 'react-bootstrap';
-import Title from '../Title/Title';
+// import Title from '../Title/Title';
+
 import uuidv1 from 'uuid/v1';
 
 const About = () => {
@@ -23,37 +24,32 @@ const About = () => {
     <section id='about'>
       <Container>
         <div className='about-wrapper'>
-          <Title title='About Me' />
-
           <Row key={uuidv1}>
-            <Col lg={12} sm={12}>
+            <Col lg={4} sm={12}>
               <Fade
                 left={isDesktop}
                 bottom={isMobile}
                 duration={1000}
-                delay={500}
+                delay={300}
                 distance='30px'
               >
                 <div className='about-wrapper__text'>
-                  <h3 className='about-wrapper__text-title'>What Can I Do?</h3>
-                  <div>
-                    <p>
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Excepturi neque, ipsa animi maiores repellendu
-                      distinctioaperiam earum dolor voluptatum consequatur
-                      blanditiis inventore debitis fuga numquam voluptate
-                      architecto itaque molestiae. Test.
-                    </p>
-                  </div>
+                  <h4 className='about-wrapper__text-title'>
+                    {' '}
+                    Sherlock can predict whether an image has been manipulated
+                    by analysing the difference in compression rates found in a
+                    image.
+                  </h4>
+                  <div></div>
                 </div>
               </Fade>
             </Col>
-            <Col lg={2} sm={12}>
+            <Col lg={8} sm={12}>
               <Fade
                 right={isDesktop}
                 bottom={isMobile}
                 duration={1000}
-                delay={1000}
+                delay={800}
                 distance='30px'
               >
                 <div className='about-wrapper__image'>
@@ -69,16 +65,19 @@ const About = () => {
                         max: 8,
                         perspective: 1000,
                         scale: 1,
-                        speed: 300,
+                        speed: 250,
                         transition: true,
                         axis: null,
                         reset: true,
                         easing: 'cubic-bezier(.03,.98,.52,.99)'
                       }}
                     >
-                      {/* <div data-tilt className='thumbnail rounded'>
-                        <ProjectImg alt={title} filename={img} />
-                      </div> */}
+                      <div data-tilt className='thumbnail rounded'>
+                        <img
+                          alt=''
+                          src={require('../../assets/sample_overlay_1.png')}
+                        />
+                      </div>
                     </Tilt>
                   </a>
                 </div>
