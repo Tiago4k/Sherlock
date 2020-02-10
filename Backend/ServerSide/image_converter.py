@@ -103,6 +103,6 @@ class ImageHandler:
 
         ela_overlay = fname + '.ela_overlay.png' 
 
-        Image.blend(image_background, image_overlay, alpha=0.7).save(ela_overlay)
+        Image.blend(image_background, image_overlay, alpha=0.6).save(ela_overlay)
 
         return ela_overlay
