@@ -2,7 +2,7 @@ import base64
 import json
 import os
 
-from flask import Flask, Response, jsonify, request, send_file
+from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 from flask_restful import Api, Resource
 from werkzeug.exceptions import BadRequest, InternalServerError
