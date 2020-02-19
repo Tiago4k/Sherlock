@@ -21,25 +21,39 @@ const FileUpload = () => {
     setFilename(e.target.files[0].name);
   };
 
-  const handleImageUpload = async e => {
-    e.preventDefault();
+  const fileToBase64 = (fname, filepath) => {
+    return new Promise(resolve => {
+      let tempFile = new File([filepath], fname);
+      let reader = new FileReader();
+      // Read file content on file loaded event
+      reader.onload = function(event) {
+        resolve(event.target.result);
+      };
+
+      // Convert data to base64
+      reader.readAsDataURL(tempFile);
+    });
+  };
+
+  const uploadToServer = async imgFile => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', imgFile);
 
     try {
-      const response = await axios.post(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        onUploadProgress: progressEvent => {
-          setUploadPrecentage(
-            parseInt(
-              Math.round((progressEvent.loaded / progressEvent.total) * 100)
-            )
-          );
-          setTimeout(() => setUploadPrecentage(0), 10000);
+      const response = await axios.post(
+        url,
+        { file: imgFile },
+        {
+          onUploadProgress: progressEvent => {
+            setUploadPrecentage(
+              parseInt(
+                Math.round((progressEvent.loaded / progressEvent.total) * 100)
+              )
+            );
+            setTimeout(() => setUploadPrecentage(0), 10000);
+          }
         }
-      });
+      );
 
       const prediction = response.data.Prediction;
       const confidence = response.data.Confidence;
@@ -57,10 +71,23 @@ const FileUpload = () => {
     }
   };
 
+  const submitForm = async e => {
+    e.preventDefault();
+
+    try {
+      // Convert img to base64
+      const result = await fileToBase64(filename, file);
+      // Send converted img to uploadToServer
+      uploadToServer(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Fragment>
       {message ? <Message msg={message} /> : null}
-      <form onSubmit={handleImageUpload}>
+      <form onSubmit={submitForm}>
         <div className='custom-file mb-4'>
           <input
             type='file'
