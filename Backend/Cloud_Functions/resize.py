@@ -22,7 +22,7 @@ def main(request):
     decoded_img = decode_base64(bucket_img)
     encoded_resized = process(decoded_img)
 
-    # Prepare payload for send_to_bucket rquest
+    # Prepare payload for send_to_bucket request
     payload_2 = {
         "bucket_dir": "RESIZED",
         "bucket_name" : bucket_name,
