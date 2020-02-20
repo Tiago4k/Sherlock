@@ -8,7 +8,6 @@ from imageio import imread
 from PIL import Image
 
 send_to_bucket_url = 'https://us-central1-sherlock-267913.cloudfunctions.net/send_to_bucket'
-download_url = 'https://us-central1-sherlock-267913.cloudfunctions.net/download_file'
 
 def main(request):
 
@@ -17,19 +16,9 @@ def main(request):
     # Parse json data
     uuid = data['uuid']
     bucket_name = data['bucket_name']
-    filepath = data['filepath']
+    img_bytes = data['img_bytes']
 
-    # Prepare payload for download rquest
-    payload = {
-        'bucket_name' : bucket_name,
-        'filepath' : filepath
-    }
-
-    # Trigger download_file function with HTTP
-    response = requests.post(download_url, json=payload)
-    data = response.json()
-
-    bucket_img = data['image_file']
+    bucket_img = img_bytes
     decoded_img = decode_base64(bucket_img)
     encoded_resized = process(decoded_img)
 
@@ -42,10 +31,13 @@ def main(request):
     }
 
     # Trigger send_to_bucket function with HTTP
-    requests.post(send_to_bucket_url, json=payload_2)
+    response = requests.post(send_to_bucket_url, json=payload_2)
+    data = response.json()
 
     resp = {
         'status' : 200,
+        'img_bytes' : encoded_resized.decode('utf-8'),
+        'filepath' : data['filepath'],
         'message' : 'Image successfully resized and stored.'
     }
 
