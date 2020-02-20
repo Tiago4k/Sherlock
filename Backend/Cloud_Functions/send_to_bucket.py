@@ -4,16 +4,10 @@ from google.cloud import storage
 def main(request):
     
     data = request.get_json()
-    
-    if request.args and 'img_bytes' in request.args:
-        filename = request.args.get['img_bytes']
-        bucket_name = request.args.get['bucket']
-        bucket_dir = request.args.get['bucket_dir']
-        dest_filename = request.args.get['uuid']
 
-    elif data and 'img_bytes' in data:
+    if data and 'img_bytes' in data:
         filename = data['img_bytes']
-        bucket_name = data['bucket']
+        bucket_name = data['bucket_name']
         bucket_dir = data['bucket_dir']
         dest_filename = data['uuid']
     else: 
@@ -25,7 +19,7 @@ def main(request):
     resp =  {
         'status' : 201,
         'message' : r[0],
-        'filename' : r[1]
+        'filepath' : r[1]
     }
 
     return jsonify(resp)
@@ -39,12 +33,12 @@ def upload_blob(folder, dest_filename, file, bucket_name):
     bucket = storage_client.get_bucket(bucket_name)
 
     # Name blob
-    filename = "%s/%s" % (folder, dest_filename)
-    blob = bucket.blob(filename)
+    filepath = "%s/%s" % (folder, dest_filename)
+    blob = bucket.blob(filepath)
 
     # Upload from string
     blob.upload_from_string(file)
     
     response = 'File {} uploaded to {}.'.format(dest_filename, bucket_name + '/' + folder)
 
-    return (response, filename)
+    return (response, filepath)
