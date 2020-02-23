@@ -18,8 +18,7 @@ def main(request):
     bucket_name = data['bucket_name']
     img_bytes = data['img_bytes']
 
-    bucket_img = img_bytes
-    decoded_img = decode_base64(bucket_img)
+    decoded_img = decode_base64(img_bytes)
     encoded_resized = process(decoded_img)
 
     # Prepare payload for send_to_bucket request
