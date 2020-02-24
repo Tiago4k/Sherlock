@@ -1,16 +1,15 @@
-FROM continuumio/miniconda:latest
+FROM python:3.7-slim-stretch
 
-WORKDIR /home/docker_prediction_api
+RUN apt update && apt install --no-install-recommends -y python3-dev gcc build-essential
+
+ENV APP_HOME /app
+
+WORKDIR $APP_HOME
 
 COPY . ./
 
+RUN pip install -r requirements.txt
+
 RUN chmod +x boot.sh
-
-RUN conda env create -f environment.yml
-
-RUN echo "source activate fypenv" > ~/.bashrc
-ENV PATH /opt/conda/envs/fypenv/bin:$PATH
-
-EXPOSE 5000
 
 ENTRYPOINT ["./boot.sh"]

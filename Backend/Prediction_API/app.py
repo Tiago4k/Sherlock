@@ -1,13 +1,14 @@
-import json
-import os
+import base64
+from io import BytesIO
 
-from flask import Flask, Response, jsonify, request
+import requests
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_restful import Api, Resource
-from werkzeug.utils import secure_filename
+from PIL import Image
 
+from cleanup import delete_upload
 from predict import get_prediction
-from image_handler import delete_upload, move_to_uploads
 
 app = Flask(__name__)
 CORS(app)
@@ -17,17 +18,18 @@ api = Api(app)
 class Prediction(Resource):
     
     def post(self):
-        cwd = os.getcwd()
+        data = request.get_json()
 
-        # Read image from upload
-        imagefile = request.files['file']
+        # Parse json data
+        uuid = data['uuid']
+        img_bytes = data['img_bytes']
 
-        # Save image to cwd
-        filename = secure_filename(imagefile.filename)
-        print('\nReceived image File name : ' + imagefile.filename)
-        imagefile.save(filename)
+        decoded_img = decode_base64(img_bytes)
+        # Image must first be saved to the local drive before being converted
+        decoded_img.save(uuid + '.png')
+        img = uuid + '.png'
 
-        result = get_prediction(filename)
+        result = get_prediction(img)
 
         if result != 0:
             prediction = str(result[0])
@@ -36,9 +38,8 @@ class Prediction(Resource):
             prediction = 'Unable to confidently provide a prediction for this image.'
             confidence = '0'
         
-        # Move uploads to image_directory and then delete the upload
-        move_to_uploads(filename, cwd)
-        delete_upload(filename)
+        # Clean up - delete produced images
+        delete_upload(img)
 
         # Prep Response 
         resp = {
@@ -48,11 +49,14 @@ class Prediction(Resource):
         }
 
         return jsonify(resp)
+
+def decode_base64(image_str):
+    """Decodes a string image and opens it using PIL.
+    """
+    return Image.open(BytesIO(base64.b64decode(image_str)))
         
-
-
-
+    
 api.add_resource(Prediction, '/')
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True, host='0.0.0.0', port=8080)

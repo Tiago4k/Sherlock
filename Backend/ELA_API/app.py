@@ -1,3 +1,4 @@
+import os
 import base64
 from io import BytesIO
 
@@ -41,7 +42,7 @@ class Converted(Resource):
         delete_upload(uuid)
 
         # Prepare payload for send_to_bucket request
-        payload_2 = {
+        payload = {
             "bucket_dir": "ELA",
             "bucket_name" : bucket_name,
             "img_bytes" : encoded_ela.decode('utf-8'),
@@ -49,7 +50,7 @@ class Converted(Resource):
         }
 
         # Trigger send_to_bucket function with HTTP
-        response = requests.post(send_to_bucket_url, json=payload_2)
+        response = requests.post(send_to_bucket_url, json=payload)
         data = response.json()
 
         resp = {
