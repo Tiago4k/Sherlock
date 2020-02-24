@@ -16,7 +16,7 @@ api = Api(app)
 
 
 class Prediction(Resource):
-    
+
     def post(self):
         data = request.get_json()
 
@@ -37,11 +37,11 @@ class Prediction(Resource):
         else:
             prediction = 'Unable to confidently provide a prediction for this image.'
             confidence = '0'
-        
+
         # Clean up - delete produced images
         delete_upload(img)
 
-        # Prep Response 
+        # Prep Response
         resp = {
             'Status': 200,
             'Prediction': prediction,
@@ -50,12 +50,13 @@ class Prediction(Resource):
 
         return jsonify(resp)
 
+
 def decode_base64(image_str):
     """Decodes a string image and opens it using PIL.
     """
     return Image.open(BytesIO(base64.b64decode(image_str)))
-        
-    
+
+
 api.add_resource(Prediction, '/')
 
 if __name__ == '__main__':

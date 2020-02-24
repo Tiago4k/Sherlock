@@ -9,6 +9,7 @@ from PIL import Image
 
 send_to_bucket_url = 'https://us-central1-sherlock-267913.cloudfunctions.net/send_to_bucket'
 
+
 def main(request):
 
     data = request.get_json()
@@ -24,8 +25,8 @@ def main(request):
     # Prepare payload for send_to_bucket request
     payload_2 = {
         "bucket_dir": "RESIZED",
-        "bucket_name" : bucket_name,
-        "img_bytes" : encoded_resized.decode('utf-8'),
+        "bucket_name": bucket_name,
+        "img_bytes": encoded_resized.decode('utf-8'),
         "uuid": uuid
     }
 
@@ -34,17 +35,17 @@ def main(request):
     data = response.json()
 
     resp = {
-        'status' : 200,
-        'img_bytes' : encoded_resized.decode('utf-8'),
-        'filepath' : data['filepath'],
-        'message' : 'Image successfully resized and stored.'
+        'status': 200,
+        'img_bytes': encoded_resized.decode('utf-8'),
+        'filepath': data['filepath'],
+        'message': 'Image successfully resized and stored.'
     }
 
     return jsonify(resp)
 
-    
+
 def process(img):
-    
+
     # Get image's dimensions
     w, h = img.size
     # Check whether image needs to be rotated or not
@@ -68,10 +69,10 @@ def resize_image(input_img):
     Params: 
     input_img: Image to be resized.
     """
-    width=384
+    width = 384
     width_percent = (width/float(input_img.size[0]))
     height_size = int((float(input_img.size[1])*float(width_percent)))
-    resized = input_img.resize((width,height_size), Image.ANTIALIAS)
+    resized = input_img.resize((width, height_size), Image.ANTIALIAS)
 
     return resized
 

@@ -95,14 +95,15 @@ class ImageHandler:
 
         img = Image.open(self.path)
         fname = self.path.split('.')[0]
-        fname_png = fname + '.png'       
+        fname_png = fname + '.png'
         img.save(fname_png, 'PNG')
 
         image_background = Image.open(fname_png).convert('RGBA')
         image_overlay = Image.open(ela_image).convert('RGBA')
 
-        ela_overlay = fname + '.ela_overlay.png' 
+        ela_overlay = fname + '.ela_overlay.png'
 
-        Image.blend(image_background, image_overlay, alpha=0.6).save(ela_overlay)
+        Image.blend(image_background, image_overlay,
+                    alpha=0.6).save(ela_overlay)
 
         return ela_overlay

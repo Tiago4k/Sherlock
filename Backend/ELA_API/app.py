@@ -17,6 +17,7 @@ api = Api(app)
 
 send_to_bucket_url = 'https://us-central1-sherlock-267913.cloudfunctions.net/send_to_bucket'
 
+
 class Converted(Resource):
     def post(self):
 
@@ -44,8 +45,8 @@ class Converted(Resource):
         # Prepare payload for send_to_bucket request
         payload = {
             "bucket_dir": "ELA",
-            "bucket_name" : bucket_name,
-            "img_bytes" : encoded_ela.decode('utf-8'),
+            "bucket_name": bucket_name,
+            "img_bytes": encoded_ela.decode('utf-8'),
             "uuid": uuid
         }
 
@@ -54,10 +55,10 @@ class Converted(Resource):
         data = response.json()
 
         resp = {
-            'status' : 200,
-            'img_bytes' : encoded_ela.decode('utf-8'),
-            'filepath' : data['filepath'],
-            'message' : 'Image successfully converted to ELA and stored.'
+            'status': 200,
+            'img_bytes': encoded_ela.decode('utf-8'),
+            'filepath': data['filepath'],
+            'message': 'Image successfully converted to ELA and stored.'
         }
 
         return jsonify(resp)
@@ -79,8 +80,7 @@ def encode_base64(image):
     return img_str
 
 
-
 api.add_resource(Converted, '/')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT',8080)))
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))

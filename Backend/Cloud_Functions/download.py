@@ -20,8 +20,8 @@ def download_file(request):
     file = blob.download_as_string()
 
     resp = {
-        'status' : 200,
-        'image_file' : file.decode('utf-8')
+        'status': 200,
+        'image_file': file.decode('utf-8')
     }
 
     return jsonify(resp)

@@ -17,7 +17,7 @@ api = Api(app)
 
 
 class Prediction(Resource):
-    
+
     def post(self):
         cwd = os.getcwd()
 
@@ -40,7 +40,7 @@ class Prediction(Resource):
         else:
             prediction = 'Unable to confidently provide a prediction for this image.'
             confidence = '0'
-        
+
         # Cleanup function
         cleanup_resp = cleanup(cwd, filename, ela_img)
 
@@ -58,7 +58,7 @@ class Prediction(Resource):
         else:
             encoded_image = ''
 
-        # Prep Response 
+        # Prep Response
         resp = {
             'Status': 200,
             'Prediction': prediction,
@@ -67,9 +67,8 @@ class Prediction(Resource):
         }
 
         return jsonify(resp)
-        
 
-    
+
 def cleanup(cwd, filename, ela_img):
 
     img_obj = ImageHandler(path=filename)
@@ -88,6 +87,7 @@ def cleanup(cwd, filename, ela_img):
     img_obj.delete_resaved_files()
 
     return img_overlay
+
 
 api.add_resource(Prediction, '/')
 

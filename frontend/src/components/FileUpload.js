@@ -26,7 +26,7 @@ const FileUpload = () => {
       let tempFile = new File([filepath], fname);
       let reader = new FileReader();
       // Read file content on file loaded event
-      reader.onload = function(event) {
+      reader.onload = function (event) {
         resolve(event.target.result);
       };
 

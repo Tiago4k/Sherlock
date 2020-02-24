@@ -1,5 +1,6 @@
 from PIL import Image, ImageChops, ImageEnhance
 
+
 def convert_to_ela(path):
     """ Returns ela filename as a string.
     Converts image by intentionally resaving an image at a known error rate and then computing the difference

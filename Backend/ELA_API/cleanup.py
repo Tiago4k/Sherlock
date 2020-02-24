@@ -1,4 +1,5 @@
-import os 
+import os
+
 
 def delete_upload(upload_file):
     """Deletes saved files produced during ela creation."""
