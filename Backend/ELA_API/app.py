@@ -57,7 +57,7 @@ class Converted(Resource):
             'status' : 200,
             'img_bytes' : encoded_ela.decode('utf-8'),
             'filepath' : data['filepath'],
-            'message' : 'Image successfully resized and stored.'
+            'message' : 'Image successfully converted to ELA and stored.'
         }
 
         return jsonify(resp)
