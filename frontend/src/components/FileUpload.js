@@ -91,6 +91,7 @@ const FileUpload = () => {
         <div className='custom-file mb-4'>
           <input
             type='file'
+            accept='image/*'
             className='custom-file-input'
             id='customFile'
             onChange={onChange}
