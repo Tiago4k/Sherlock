@@ -55,9 +55,9 @@ const FileUpload = () => {
         }
       );
 
-      const prediction = response.data.Prediction;
-      const confidence = response.data.Confidence;
-      const encodedImage = response.data.EncodedImage;
+      const prediction = response.data.prediction;
+      const confidence = response.data.confidence;
+      // const encodedImage = response.data.EncodedImage;
 
       setUploadedFile({ filename, encodedImage });
       setResults({ prediction, confidence });
@@ -121,7 +121,7 @@ const FileUpload = () => {
                   <h4 className='text-center'>{uploadedFile.filename}</h4>
                   <img
                     style={{ width: '100%' }}
-                    src={'data:image/jpeg;base64,' + uploadedFile.encodedImage}
+                    src={file}
                     alt=''
                   />
                 </Col>

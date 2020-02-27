@@ -1,3 +1,4 @@
+import os
 import base64
 from io import BytesIO
 
@@ -7,8 +8,7 @@ from flask import jsonify
 from imageio import imread
 from PIL import Image
 
-send_to_bucket_url = 'https://us-central1-sherlock-267913.cloudfunctions.net/send_to_bucket'
-
+send_to_bucket_url = os.environ['BUCKET_URL']
 
 def main(request):
 
