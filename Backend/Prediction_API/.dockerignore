@@ -4,6 +4,3 @@
 *.pyo
 *.pyd
 __pycache__
-
-# boot.sh
-environment.yml

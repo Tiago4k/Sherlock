@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-const url = 'http://localhost:8080/';
+const url = 'https://router-api-rxt3flnjda-ez.a.run.app';
 
 const FileUpload = () => {
   const [file, setFile] = useState('');
@@ -39,10 +39,17 @@ const FileUpload = () => {
     const formData = new FormData();
     formData.append('file', imgFile);
 
+
     try {
       const response = await axios.post(
         url,
-        { file: imgFile },
+        { file: imgFile }, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Methods': 'GET, POST'
+        }
+      },
         {
           onUploadProgress: progressEvent => {
             setUploadPrecentage(
@@ -59,7 +66,7 @@ const FileUpload = () => {
       const confidence = response.data.confidence;
       // const encodedImage = response.data.EncodedImage;
 
-      setUploadedFile({ filename, encodedImage });
+      setUploadedFile({ filename });
       setResults({ prediction, confidence });
       setMessage('File Successfully Uploaded!');
     } catch (err) {
