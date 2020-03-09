@@ -3,8 +3,8 @@ from PIL import Image, ImageChops, ImageEnhance
 
 def convert_to_ela(path):
     """ Returns ela filename as a string.
-    Converts image by intentionally resaving an image at a known error rate and then computing the difference
-    between the two images.
+    Converts image by intentionally resaving an image at a known error rate and then 
+    computing the difference between the two images.
 
     Params:
     path: path to the image to be converted using ELA
@@ -23,7 +23,7 @@ def convert_to_ela(path):
     # Gets the the minimum and maximum pixel values for each band in the image.
     extrema = ela_img.getextrema()
 
-    # Calculate max different between the pixel values in the image
+    # Calculate max difference between the pixel values in the image
     max_diff = max([ex[1] for ex in extrema])
     if max_diff == 0:
         max_diff = 1
