@@ -1,22 +1,22 @@
-import React from 'react';
-import Home from './pages/Home';
-import Analyse from './pages/Analyse';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React from "react";
+import "bulma/css/bulma.css";
+import { GlobalProvider } from "./contexts/GlobalState";
 
-// import Profile from './components/Profile';
-// import history from './utils/history';
-// import PrivateRoute from './components/PrivateRoute';
+// import { useAuth0 } from "./contexts/auth0-context";
+// import Home from "./pages/Home";
+import Analyse from "./pages/Analyse";
 
 function App() {
+  // const { isLoading, user } = useAuth0();
+
   return (
-    <main>
-      <Router>
-        <Switch>
-          <Route path='/' component={Home} exact />
-          <Route path='/Analyse' component={Analyse} />
-        </Switch>
-      </Router>
-    </main>
+    <div>
+      {/* {!isLoading && !user && <Home />}
+      {!isLoading && user && <Analyse />} */}
+      <GlobalProvider>
+        <Analyse />
+      </GlobalProvider>
+    </div>
   );
 }
 
