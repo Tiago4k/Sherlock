@@ -1,53 +1,96 @@
-import React, { Fragment, useState } from 'react';
-import axios from 'axios';
-import Message from './Message/Message';
-import Progress from './Progress';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useState, useContext } from 'react';
+import { Container, Form, Row } from 'react-bootstrap';
+import { GlobalContext } from '../contexts/GlobalState';
+import { useAuth0 } from '../contexts/auth0-context';
 
-const url = 'http://localhost:8080/';
+import axios from 'axios';
+import Message from './Message';
+import Loading from '../components/Loading';
+import 'bulma/css/bulma.css';
+
+const url = process.env.REACT_APP_API_URL;
+
+const Input = props => (
+  <input
+    className='file-input'
+    type='file'
+    accept='.png, .jpg, .jpeg, .tif, .bmp'
+    id='customFile'
+    {...props}
+  />
+);
 
 const FileUpload = () => {
+  const { uploaded, updateStates } = useContext(GlobalContext);
+  const { user } = useAuth0();
+
   const [file, setFile] = useState('');
   const [filename, setFilename] = useState('Choose File');
-  const [results, setResults] = useState({});
-  const [uploadedFile, setUploadedFile] = useState({});
+  const [imgBits, setImgBits] = useState('');
   const [message, setMessage] = useState('');
   const [uploadPrecentage, setUploadPrecentage] = useState(0);
+
+  let email = 'testing_email@test.com';
+
+  if (user) {
+    email = user.email;
+  }
 
   const onChange = e => {
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
   };
 
-  const handleImageUpload = async e => {
+  const submitForm = async e => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('file', file);
 
     try {
-      const response = await axios.post(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        onUploadProgress: progressEvent => {
-          setUploadPrecentage(
-            parseInt(
-              Math.round((progressEvent.loaded / progressEvent.total) * 100)
-            )
-          );
-          setTimeout(() => setUploadPrecentage(0), 10000);
-        }
+      // Send converted img to uploadToServer
+      await fileToBase64(filename, file).then(result => {
+        setImgBits(result);
+        uploadToServer(result);
       });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-      const prediction = response.data.Prediction;
-      const confidence = response.data.Confidence;
-      const encodedImage = response.data.EncodedImage;
+  const fileToBase64 = (fname, filepath) => {
+    return new Promise(resolve => {
+      let tempFile = new File([filepath], fname);
+      let reader = new FileReader();
+      // Read file content on file loaded event
+      reader.onload = function(event) {
+        resolve(event.target.result);
+      };
 
-      setUploadedFile({ filename, encodedImage });
-      setResults({ prediction, confidence });
+      // Convert data to base64
+      reader.readAsDataURL(tempFile);
+    });
+  };
+
+  const uploadToServer = async imgFile => {
+    try {
+      const response = await axios.post(
+        url,
+        { file: imgFile, email: email },
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Methods': 'GET, POST'
+          }
+        }
+      );
+
+      const prediction = response.data.prediction;
+      const confidence = response.data.confidence;
+
       setMessage('File Successfully Uploaded!');
+
+      // calls updateStates() from GlobalContext to update results
+      updateStates(true, prediction, confidence);
     } catch (err) {
       if (err.response.status === 400) {
         setMessage('No File Uploaded!');
@@ -57,52 +100,78 @@ const FileUpload = () => {
     }
   };
 
+  const triggerLoading = e => {
+    if (!uploaded) {
+      return <Loading />;
+    }
+  };
+  const clearImage = e => {
+    setFile('');
+    setFilename('');
+  };
+
   return (
-    <Fragment>
-      {message ? <Message msg={message} /> : null}
-      <form onSubmit={handleImageUpload}>
-        <div className='custom-file mb-4'>
-          <input
-            type='file'
-            className='custom-file-input'
-            id='customFile'
-            onChange={onChange}
-          />
-          <label className='custom-file-label' htmlFor='customFile'>
-            {filename}
-          </label>
-        </div>
-        <Progress precentage={uploadPrecentage} />
-        <input
-          type='submit'
-          value='Upload'
-          className='btn btn-primary btn-block mt-4'
-        />
-      </form>
-      {uploadedFile ? (
-        <div className='row mt-5'>
-          <div className='col-md-8 m-auto'>
-            <h3 className='text-center'>{''}</h3>
-            <Container md='auto'>
-              <Row>
-                <Col sm={true}>
-                  <p>Prediction: {results.prediction}</p>
-                  <p>Confidence: {results.confidence}</p>
-                </Col>
-                <Col xl={true}>
-                  <h4 className='text-center'>{uploadedFile.filename}</h4>
-                  <img
-                    style={{ width: '100%' }}
-                    src={'data:image/jpeg;base64,' + uploadedFile.encodedImage}
-                    alt=''
-                  />
-                </Col>
-              </Row>
-            </Container>
-          </div>
-        </div>
-      ) : null}
-    </Fragment>
+    <>
+      {!uploaded ? (
+        <Container fluid>
+          {message ? <Message msg={message} /> : null}
+          <Form onSubmit={submitForm}>
+            <Row className='justify-content-md-center'>
+              <div className='file is-centered is-boxed is-large'>
+                <label className='file-label'>
+                  <Input onChange={onChange} />
+                  <span className='file-cta'>
+                    <span className='file-icon'>
+                      <i className='fas fa-upload'></i>
+                    </span>
+                    <span className='file-label'>Choose a file…</span>
+                  </span>
+                </label>
+              </div>
+            </Row>
+            {filename !== 'Choose File' ? (
+              <>
+                <Row className='justify-content-md-center mt-3'>
+                  <label style={{ fontSize: 18 }} htmlFor='customFile'>
+                    {filename}
+                  </label>
+                </Row>
+                {/* <Row>
+                  <Progress precentage={uploadPrecentage} />
+                </Row> */}
+                <Row className='justify-content-md-center mt-3'>
+                  <button
+                    type='submit'
+                    className='button is-large is-fullwidth'
+                  >
+                    Submit
+                  </button>
+                </Row>
+              </>
+            ) : null}
+          </Form>
+        </Container>
+      ) : (
+        <Container fluid>
+          <Row className='justify-content-md-center mt-3'>
+            <img style={{ width: '100%' }} src={imgBits} alt='' />
+          </Row>
+          <Row className='justify-content-md-center mt-3'>
+            <p style={{ fontSize: 18 }} htmlFor='customFile'>
+              {filename}
+            </p>
+          </Row>
+          <Row className='justify-content-md-center mt-3'>
+            <Form onSubmit={clearImage}>
+              {' '}
+              <button type='submit' className='button is-large is-fullwidth'>
+                Clear
+              </button>
+            </Form>
+          </Row>
+        </Container>
+      )}
+    </>
   );
 };
 

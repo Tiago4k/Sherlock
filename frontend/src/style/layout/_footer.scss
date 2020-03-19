@@ -1,9 +1,8 @@
 .footer {
   background-color: $dark-grey;
   color: $white-color;
-  padding: 1.0rem 0;
+  padding: 1rem 0;
   text-align: center;
-  
 
   @include respond(phone) {
     border: 0px;
@@ -37,7 +36,6 @@
     border-top: 2px solid rgba(255, 255, 255, 0.1);
   }
 }
-
 
 .back-to-top i {
   color: $white-color;

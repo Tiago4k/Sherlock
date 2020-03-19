@@ -1,12 +1,13 @@
 # Ignore Dataset folder
 Dataset
-Dataset.zip
-
+Backend/ServerSide/Uploads/
+Backend/ELA_API/gcloudenv/
 Model Weights
 
-REDUNDANT_image_seperator.py
-2export.pkl
+.vscode
 .DS_Store
-Backend/ServerSide/Uploads/
+config
+__pycache__
 
 auth_config.json
+

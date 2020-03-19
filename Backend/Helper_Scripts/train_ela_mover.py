@@ -1,3 +1,4 @@
+from image_converter import ImageHandler
 import os
 import shutil
 import sys
@@ -10,7 +11,6 @@ from Constants import const
 
 cwd = os.getcwd()
 sys.path.insert(1, cwd + '/Backend/ServerSide')
-from image_converter import ImageHandler
 
 
 def convert_all_to_ela(baseDir, folder, subfolder):

@@ -1,0 +1,20 @@
+.navbar-brand {
+  color: grey;
+  font-size: $navbar-brand-font-size !important;
+  margin: 0px;
+}
+
+.brand {
+  background: transparent;
+  outline: none;
+  border: none;
+  font-size: $navbar-brand-font-size !important;
+}
+
+.greeting {
+  background: transparent;
+  color: grey;
+  font-weight: 400;
+  padding: 0 40px;
+  font-size: 20px;
+}
