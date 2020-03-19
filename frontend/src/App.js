@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { GlobalProvider } from './contexts/GlobalState';
 import { useAuth0 } from './contexts/auth0-context';
 
@@ -24,12 +24,12 @@ function App() {
     <div>
       <GlobalProvider>
         <Navbar />
-        <BrowserRouter history={history}>
+        <Router history={history}>
           <Switch>
             <Route exact path='/' component={Home} />
             <PrivateRoute path='/analyse' component={Analyse} />
           </Switch>
-        </BrowserRouter>
+        </Router>
         {/* <Analyse /> */}
       </GlobalProvider>
     </div>

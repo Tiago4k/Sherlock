@@ -9,7 +9,7 @@ import Message from './Message';
 import Loading from '../components/Loading';
 import 'bulma/css/bulma.css';
 
-const url = 'https://router-api-rxt3flnjda-ez.a.run.app';
+const url = process.env.REACT_APP_API_URL;
 
 const Input = props => (
   <input
