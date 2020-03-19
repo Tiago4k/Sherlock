@@ -18,25 +18,30 @@ config = ConfigParser()
 config.read(config_path)
 
 send_to_bucket_url = config.get('instance', 'send_to_bucket')
-# resize_url = config.get('instance', 'resize')
+resize_url = config.get('instance', 'resize')
 ela_url = config.get('instance', 'ela')
 prediction_url = config.get('instance', 'prediction')
 post_url = config.get('instance', 'post')
 bucket_name = config.get('bucket', 'name')
 
+resize_flag = False
+
 
 class process(Resource):
 
     def post(self):
-        """
-        TODO: Request the clients username
-        """
 
+        email = ''
         data = request.get_json()
 
         # Check if the request is empty.
         if data['file'] == None:
             raise BadRequest()
+
+        if data['email'] == None:
+            email = 'testing_email@test.com'
+        else:
+            email = data['email']
 
         image_str = data['file']
         image_str = image_str.split(',')
@@ -76,30 +81,25 @@ class process(Resource):
             'uuid': generated_uuid
         }
 
-        ##########################################################################
-        #################### UNCOMMENT TO USE RESIZE FUNCTION ####################
-        ##########################################################################
-        # Check if the service is up before sending post request
-        # try:
-        #     response = requests.head(resize_url)
-        # except requests.RequestException as err:
-        #     raise err
-        # else:
-        #     # Trigger Resize function with HTTP
-        #     response = requests.post(resize_url, json=payload_2)
-        #     data = response.json()
+        # Set resize flag to false if you do NOT want to run the resize function
+        if resize_flag:
+            # Check if the service is up before sending post request
+            try:
+                response = requests.head(resize_url)
+            except requests.RequestException as err:
+                raise err
+            else:
+                # Trigger Resize function with HTTP
+                response = requests.post(resize_url, json=payload_2)
+                data = response.json()
 
-        # Check if the image was successfully resized, if it has continue with the resized image.
-        # If an error occurred during the resizing and/or saving of the image, continue with the
-        # process but by utilising the original bytes sent by the client.
-        # if data['status'] == 200:
-        #     img_bytes = data['img_bytes']
-        # else:
-        #     img_bytes = image_base64
-
-        ##########################################################################
-        ##########################################################################
-        ##########################################################################
+            # Check if the image was successfully resized, if it has continue with the resized image.
+            # If an error occurred during the resizing and/or saving of the image, continue with the
+            # process but by utilising the original bytes sent by the client.
+            if data['status'] == 200:
+                img_bytes = data['img_bytes']
+            else:
+                img_bytes = image_base64
 
         img_bytes = image_base64
 
@@ -149,7 +149,7 @@ class process(Resource):
 
         firestore_payload = {
             'uuid': generated_uuid,
-            'username': 'test@test.com',
+            'username': email,
             'prediction': prediction,
             'confidence': confidence,
             'bucket_name': bucket_name
