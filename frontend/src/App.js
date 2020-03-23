@@ -1,36 +1,40 @@
-import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
-import { GlobalProvider } from './contexts/GlobalState';
-import { useAuth0 } from './contexts/auth0-context';
+import React from "react";
+import { Router, Route, Switch } from "react-router-dom";
+import history from "./utils/history";
 
-import history from './utils/history';
-import PrivateRoute from './components/PrivateRoute';
-import Home from './pages/Home';
-import Analyse from './pages/Analyse';
-import Loading from './components/Loading';
-import Navbar from './components/Navigation';
+// context imports
+import { GlobalProvider } from "./contexts/GlobalState";
+import { useAuth0 } from "./contexts/auth0-context";
+
+// component imports
+import PrivateRoute from "./components/PrivateRoute";
+import Loading from "./components/Loading/Loading";
+
+// pages
+import Home from "./pages/Home";
+import Analyse from "./pages/Analyse";
+import NotFound from "./pages/NotFound";
 
 // styles
-import 'bulma/css/bulma.css';
+import "bulma/css/bulma.css";
 
 function App() {
   const { loading } = useAuth0();
 
   if (loading) {
-    return <Loading />;
+    return <Loading className={"spinner"} />;
   }
 
   return (
     <div>
       <GlobalProvider>
-        <Navbar />
         <Router history={history}>
           <Switch>
-            <Route exact path='/' component={Home} />
-            <PrivateRoute path='/analyse' component={Analyse} />
+            <Route exact path="/" component={Home} />
+            <PrivateRoute path="/analyse" component={Analyse} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </Router>
-        {/* <Analyse /> */}
       </GlobalProvider>
     </div>
   );

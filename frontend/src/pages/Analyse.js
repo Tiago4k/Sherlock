@@ -1,23 +1,26 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect, useContext } from 'react';
-import { Container, Col, Row } from 'react-bootstrap';
-import { useAuth0 } from '../contexts/auth0-context';
-import { GlobalContext } from '../contexts/GlobalState';
+import React, { useState, useEffect, useContext } from "react";
+import { Container, Row, Form } from "react-bootstrap";
+import { Button, Icon } from "semantic-ui-react";
+import Fade from "react-reveal/Fade";
 
-import Loading from '../components/Loading';
-import Footer from '../components/Footer';
-import Card from '../components/Card';
-import FileUpload from '../components/FileUpload';
+// context imports
+// import { useAuth0 } from "../contexts/auth0-context";
+import { GlobalContext } from "../contexts/GlobalState";
 
-import Fade from 'react-reveal/Fade';
+// component imports
+import Navbar from "../components/Navigation";
+import Footer from "../components/Footer";
+import FileUpload from "../components/FileUpload";
+import Results from "../components/Results";
 
 function Analyse() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   // Global contexts
-  const { results, uploaded } = useContext(GlobalContext);
-  const { loading, user } = useAuth0();
+  const { uploaded } = useContext(GlobalContext);
+  // const { user } = useAuth0();
 
   useEffect(() => {
     if (window.innerWidth > 769) {
@@ -29,59 +32,61 @@ function Analyse() {
     }
   }, []);
 
-
-
   return (
-    <>
-      <section id='hero'>
-        <Container className='align-self-center'>
-          <Row className='about-wrapper'>
-            <Col sm={8}>
-              <Container>
-                <Fade
-                  left={isDesktop}
-                  bottom={isMobile}
-                  duration={1000}
-                  delay={500}
-                  distance='100px'
+    <React.Fragment>
+      <Navbar />
+      <section id="hero" className="jumbotron">
+        <Container>
+          <Fade
+            top={(isDesktop, isMobile)}
+            duration={500}
+            delay={100}
+            distance="100px"
+          >
+            {uploaded ? (
+              <React.Fragment>
+                <Row style={{ alignSelf: "center", justifyContent: "center" }}>
+                  <p className="hero-subtitle-analyse">
+                    Analysis Completed.
+                    <br />
+                    Here are your results.
+                  </p>
+                </Row>
+                <Row style={{ alignSelf: "center", justifyContent: "center" }}>
+                  <Results />
+                </Row>
+                <Row
+                  style={{
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: "50px"
+                  }}
                 >
-                  {uploaded ? (
-                    <Col>
-                      <div className='about-wrapper__info'>
-                        <p className='about-wrapper__info-text'>
-                          {' '}
-                          Image Uploaded!
-                        </p>
-                      </div>
-                    </Col>
-                  ) : (
-                    <Col>
-                      <div className='about-wrapper__info'>
-                        <p className='about-wrapper__info-text'>
-                          {' '}
-                          Upload an image to check for forgery.
-                        </p>
-                        {/* <br /> */}
-                        <p className='about-wrapper__info-text text-color-main'>
-                          {' '}
-                          Receive a prediction in seconds!
-                        </p>{' '}
-                      </div>
-                    </Col>
-                  )}
-                </Fade>
-              </Container>
-            </Col>
-            <Col sm={4}>
-              <Container>
-                <Card card={<FileUpload />} />
-              </Container>
-            </Col>
-          </Row>
+                  <Form>
+                    {" "}
+                    <Button basic color="blue" size="massive" animated>
+                      <Button.Content type="submit" visible>
+                        Clear Results
+                      </Button.Content>
+                      <Button.Content hidden>
+                        <Icon name="remove" />
+                      </Button.Content>
+                    </Button>
+                  </Form>
+                </Row>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Container>
+                  <FileUpload />
+                </Container>
+              </React.Fragment>
+            )}
+          </Fade>
         </Container>
       </section>
       <Footer />
-    </>
+    </React.Fragment>
   );
 }
 
