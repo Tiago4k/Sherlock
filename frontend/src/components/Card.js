@@ -1,11 +1,13 @@
 import React from "react";
-import Card from "react-bootstrap/Card";
+import { Container, Card } from "react-bootstrap";
 
 const Cards = props => {
   return (
-    <Card>
-      <Card.Body>{props.card}</Card.Body>
-    </Card>
+    <Container>
+      <Card>
+        <Card.Body>{props.card}</Card.Body>
+      </Card>
+    </Container>
   );
 };
 

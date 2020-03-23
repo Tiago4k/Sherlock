@@ -1,37 +1,39 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useContext } from 'react';
-import { Container, Form, Row } from 'react-bootstrap';
-import { GlobalContext } from '../contexts/GlobalState';
-import { useAuth0 } from '../contexts/auth0-context';
+import React, { useContext, useState } from "react";
+import { Container, Form, Row } from "react-bootstrap";
+import { Button, Icon, Label } from "semantic-ui-react";
+import axios from "axios";
 
-import axios from 'axios';
-import Message from './Message';
-import Loading from '../components/Loading';
-import 'bulma/css/bulma.css';
+// context imports
+import { GlobalContext } from "../contexts/GlobalState";
+import { useAuth0 } from "../contexts/auth0-context";
+
+// component imports
+import LoadingResults from "./Loading/LoadingResults";
+
+import "bulma/css/bulma.css";
 
 const url = process.env.REACT_APP_API_URL;
 
 const Input = props => (
   <input
-    className='file-input'
-    type='file'
-    accept='.png, .jpg, .jpeg, .tif, .bmp'
-    id='customFile'
+    className="file-input"
+    type="file"
+    accept=".png, .jpg, .jpeg, .tif, .bmp"
+    id="customFile"
     {...props}
   />
 );
 
-const FileUpload = () => {
+function FileUpload() {
   const { uploaded, updateStates } = useContext(GlobalContext);
   const { user } = useAuth0();
 
-  const [file, setFile] = useState('');
-  const [filename, setFilename] = useState('Choose File');
-  const [imgBits, setImgBits] = useState('');
-  const [message, setMessage] = useState('');
-  const [uploadPrecentage, setUploadPrecentage] = useState(0);
+  const [file, setFile] = useState("");
+  const [filename, setFilename] = useState("Choose File");
+  const [showLoading, setShowLoading] = useState(false);
 
-  let email = 'testing_email@test.com';
+  let email = "testing_email@test.com";
 
   if (user) {
     email = user.email;
@@ -44,11 +46,9 @@ const FileUpload = () => {
 
   const submitForm = async e => {
     e.preventDefault();
-
     try {
       // Send converted img to uploadToServer
       await fileToBase64(filename, file).then(result => {
-        setImgBits(result);
         uploadToServer(result);
       });
     } catch (err) {
@@ -71,108 +71,104 @@ const FileUpload = () => {
   };
 
   const uploadToServer = async imgFile => {
+    setShowLoading(true);
+    const payload = {
+      file: imgFile,
+      email: email
+    };
+
+    const options = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Methods": "GET, POST"
+      }
+    };
+
     try {
-      const response = await axios.post(
-        url,
-        { file: imgFile, email: email },
-        {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Methods': 'GET, POST'
-          }
-        }
-      );
+      const response = await axios.post(url, payload, options);
 
       const prediction = response.data.prediction;
       const confidence = response.data.confidence;
-
-      setMessage('File Successfully Uploaded!');
-
+      setShowLoading(false);
+      console.log("File Successfully Uploaded!");
       // calls updateStates() from GlobalContext to update results
-      updateStates(true, prediction, confidence);
+      updateStates(true, prediction, confidence, file, filename);
     } catch (err) {
+      setShowLoading(false);
       if (err.response.status === 400) {
-        setMessage('No File Uploaded!');
+        console.log("No File Uploaded!");
       } else if (err.response.status === 500) {
-        setMessage('There seems to be an issue with the server.');
+        console.log("There seems to be an issue with the server.");
+      } else {
+        console.log("Unexpected error occurred.");
       }
     }
   };
+  const Clear = () => {
+    setFile("");
+    setFilename("Choose File");
+  };
 
-  const triggerLoading = e => {
-    if (!uploaded) {
-      return <Loading />;
-    }
-  };
-  const clearImage = e => {
-    setFile('');
-    setFilename('');
-  };
+  if (showLoading) {
+    return <LoadingResults />;
+  }
 
   return (
-    <>
+    <React.Fragment>
       {!uploaded ? (
-        <Container fluid>
-          {message ? <Message msg={message} /> : null}
+        <React.Fragment>
+          <Container>
+            <p className="hero-subtitle-analyse">
+              Upload an image to check for forgery.
+              <br />
+              Receive a<span className="text-color-main"> prediction </span>in
+              seconds!
+            </p>
+          </Container>
           <Form onSubmit={submitForm}>
-            <Row className='justify-content-md-center'>
-              <div className='file is-centered is-boxed is-large'>
-                <label className='file-label'>
+            <Container>
+              <Row className="justify-content-center">
+                <label>
                   <Input onChange={onChange} />
-                  <span className='file-cta'>
-                    <span className='file-icon'>
-                      <i className='fas fa-upload'></i>
-                    </span>
-                    <span className='file-label'>Choose a file…</span>
-                  </span>
+                  <Icon size="massive" name="cloud upload" />
+                  {!file && (
+                    <Row className="justify-content-center mt-3">
+                      <Label size="huge" pointing>
+                        Choose a file
+                      </Label>
+                    </Row>
+                  )}
                 </label>
-              </div>
-            </Row>
-            {filename !== 'Choose File' ? (
-              <>
-                <Row className='justify-content-md-center mt-3'>
-                  <label style={{ fontSize: 18 }} htmlFor='customFile'>
+              </Row>
+            </Container>
+            {filename !== "Choose File" ? (
+              <React.Fragment>
+                <Row className="justify-content-center align-items-center mt-4">
+                  <span className="filename" htmlFor="customFile">
                     {filename}
-                  </label>
+                  </span>
+                  <span onClick={() => Clear()}>
+                    <Icon color="red" name="close" />
+                  </span>
                 </Row>
-                {/* <Row>
-                  <Progress precentage={uploadPrecentage} />
-                </Row> */}
-                <Row className='justify-content-md-center mt-3'>
-                  <button
-                    type='submit'
-                    className='button is-large is-fullwidth'
-                  >
-                    Submit
-                  </button>
+                <Row className="justify-content-center mt-5">
+                  <Button basic color="blue" size="massive" animated>
+                    <Button.Content type="submit" visible>
+                      Start
+                    </Button.Content>
+                    <Button.Content hidden>
+                      <Icon name="arrow right" />
+                    </Button.Content>
+                  </Button>
                 </Row>
-              </>
+              </React.Fragment>
             ) : null}
           </Form>
-        </Container>
-      ) : (
-        <Container fluid>
-          <Row className='justify-content-md-center mt-3'>
-            <img style={{ width: '100%' }} src={imgBits} alt='' />
-          </Row>
-          <Row className='justify-content-md-center mt-3'>
-            <p style={{ fontSize: 18 }} htmlFor='customFile'>
-              {filename}
-            </p>
-          </Row>
-          <Row className='justify-content-md-center mt-3'>
-            <Form onSubmit={clearImage}>
-              {' '}
-              <button type='submit' className='button is-large is-fullwidth'>
-                Clear
-              </button>
-            </Form>
-          </Row>
-        </Container>
-      )}
-    </>
+        </React.Fragment>
+      ) : null}
+    </React.Fragment>
   );
-};
+}
 
 export default FileUpload;

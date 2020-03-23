@@ -1,0 +1,21 @@
+.images {
+  max-height: 400px;
+  max-width: 350px;
+
+  @include respond(tab-land) {
+    max-height: 350px;
+    max-width: 300px;
+  }
+  @include respond(tab-port) {
+    max-height: 300px;
+    max-width: 250px;
+  }
+  @include respond(phone) {
+    max-height: 250px;
+    max-width: 200px;
+  }
+  @include respond(phone-xs) {
+    max-height: 200px;
+    max-width: 150px;
+  }
+}

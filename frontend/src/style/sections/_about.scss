@@ -78,4 +78,17 @@
       }
     }
   }
+  .flex-center {
+    display: flex;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    overflow: auto;
+  }
+  .flex-center p {
+    display: flex;
+    margin: auto;
+    padding: 0rem;
+  }
 }
