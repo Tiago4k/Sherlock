@@ -5,7 +5,7 @@ from google.cloud import storage
 service_acc = os.environ['SERVICE_ACC']
 
 
-def download_file(request):
+def main(request):
 
     data = request.get_json()
 
