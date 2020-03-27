@@ -5,7 +5,6 @@ import { Button, Icon } from "semantic-ui-react";
 import Fade from "react-reveal/Fade";
 
 // context imports
-// import { useAuth0 } from "../contexts/auth0-context";
 import { GlobalContext } from "../contexts/GlobalState";
 
 // component imports
@@ -13,6 +12,7 @@ import Navbar from "../components/Navigation";
 import Footer from "../components/Footer";
 import FileUpload from "../components/FileUpload";
 import Results from "../components/Results";
+import Carousel from "../components/Carousel";
 
 function Analyse() {
   const [isDesktop, setIsDesktop] = useState(false);
@@ -20,7 +20,6 @@ function Analyse() {
 
   // Global contexts
   const { uploaded } = useContext(GlobalContext);
-  // const { user } = useAuth0();
 
   useEffect(() => {
     if (window.innerWidth > 769) {
@@ -84,6 +83,11 @@ function Analyse() {
             )}
           </Fade>
         </Container>
+      </section>
+      <section id="carousel" className="jumbotron">
+        <Row>
+          <Carousel />
+        </Row>
       </section>
       <Footer />
     </React.Fragment>

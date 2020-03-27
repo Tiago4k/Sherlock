@@ -19,3 +19,33 @@
     max-width: 150px;
   }
 }
+
+.logo {
+  vertical-align: top;
+  max-width: 250px;
+  display: inline-block;
+  @include respond(phone) {
+    max-width: 200px;
+  }
+  @include respond(phone-xs) {
+    max-height: 200px;
+    max-width: 150px;
+  }
+}
+
+.colab-logos {
+  max-width: 277px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: inline-block;
+  @include respond(phone) {
+    max-width: 200px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  @include respond(phone-xs) {
+    max-width: 150px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}

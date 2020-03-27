@@ -1,0 +1,67 @@
+#carousel {
+  border-bottom: 0px;
+  background: $white-color;
+  margin-top: -10vh;
+  margin-bottom: 2vh;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+
+  .card {
+    padding: 10px 10px;
+    opacity: 1;
+    min-height: 37vh;
+    color: white;
+  }
+
+  .card-title {
+    text-align: center;
+    font-weight: 600;
+    color: $dark-blue-text;
+    overflow: hidden;
+    font-size: 18px;
+    line-height: 18px;
+  }
+  .card-text {
+    text-align: center;
+    font-weight: 600;
+    font-style: italic;
+    overflow: hidden;
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  .card-no-uploads {
+    color: $dark-blue-text;
+    font-weight: 500;
+    overflow: hidden;
+    font-size: 18px;
+    line-height: 18px;
+    align-self: center;
+  }
+
+  img {
+    margin: auto;
+    max-height: 160px;
+  }
+  .slick-prev:before,
+  .slick-next:before {
+    color: $secondary-color !important;
+  }
+
+  .flex-center {
+    display: flex;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    overflow: auto;
+  }
+  .flex-center p {
+    display: flex;
+    margin: auto;
+    padding: 0rem;
+  }
+}

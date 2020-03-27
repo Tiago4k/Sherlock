@@ -2,6 +2,7 @@ import React from "react";
 
 // component imports
 import Hero from "../components/Hero";
+import About from "../components/About";
 import Navbar from "../components/Navigation";
 import Footer from "../components/Footer";
 
@@ -10,6 +11,7 @@ function Home() {
     <React.Fragment>
       <Navbar />
       <Hero />
+      <About />
       <Footer />
     </React.Fragment>
   );
