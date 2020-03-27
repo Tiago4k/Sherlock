@@ -1,0 +1,61 @@
+#analyse {
+  min-height: 50vh;
+  display: flex;
+  border-bottom: 0px;
+  background: $white-color;
+  font-weight: 400;
+  color: $dark-blue-text;
+  padding: 25vh;
+  margin-bottom: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+
+  .analyse-title {
+    font-size: 3rem;
+    font-weight: 500;
+    margin-bottom: 3.2rem;
+    text-align: center;
+
+    @include respond(tab-land) {
+      font-size: 2.8rem;
+
+      & span {
+        font-size: 2.5rem;
+        font-weight: 400;
+      }
+    }
+    @include respond(tab-port) {
+      font-size: 2.8rem;
+      text-align: center;
+    }
+    @include respond(phone) {
+      font-size: 1.8rem;
+      line-height: 1.5;
+
+      & span {
+        font-size: 1.8rem;
+        font-weight: 400;
+      }
+    }
+    @include respond(phone-xs) {
+      font-size: 1.3rem;
+    }
+  }
+
+  .flex-center {
+    display: flex;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    overflow: auto;
+  }
+  .flex-center p {
+    display: flex;
+    margin: auto;
+    padding: 0rem;
+  }
+}

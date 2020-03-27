@@ -21,13 +21,71 @@ send_to_bucket_url = config.get('instance', 'send_to_bucket')
 resize_url = config.get('instance', 'resize')
 ela_url = config.get('instance', 'ela')
 prediction_url = config.get('instance', 'prediction')
-post_url = config.get('instance', 'post')
-bucket_name = config.get('bucket', 'name')
+firestore_post_url = config.get('instance', 'post')
+firestore_get_url = config.get('instance', 'get_from_firestre')
+download_url = config.get('instance', 'download_url')
 
+bucket_name = config.get('bucket', 'name')
+bucket_path = config.get('bucket', 'path')
 resize_flag = False
 
 
-class process(Resource):
+class Uploads(Resource):
+    def get(self, email):
+        # empty list for user uploads
+        uploads_list = []
+
+        # payload for firestore request
+        payload = {
+            'username': email
+        }
+
+        fire_resp = requests.post(firestore_get_url, json=payload).json()
+
+        # check if user has any documents, if they do not, return.
+        if(len(fire_resp['documents']) == 0):
+            return jsonify({'status': 204})
+
+        # While there are documents in the list keep iterating. When i == 4, break.
+        # This means we have 5 documents to return to the user which is all that will
+        # be returned due to latency.
+        i = 0
+        while(i <= len(fire_resp['documents'])):
+
+            # if the lenght of the list - i != 0, it means we still have more items
+            # to iterate through.
+            if(len(fire_resp['documents'])-i != 0):
+                payload = {
+                    'bucket_name': bucket_name,
+                    'filepath': bucket_path + '/' + fire_resp['documents'][i]['uuid']
+                }
+
+                download_resp = requests.post(
+                    download_url, json=payload).json()
+
+                # append the image, uuid and prediction to the list to be returned to the user
+                uploads_list.append({
+                    'uuid': fire_resp['documents'][i]['uuid'],
+                    'prediction': fire_resp['documents'][i]['prediction'],
+                    'image': download_resp['image_file']
+                })
+            else:
+                break
+
+            if(i == 4):
+                break
+            # increment i
+            i += 1
+
+        resp = {
+            'status': 200,
+            'uploads': uploads_list
+        }
+
+        return jsonify(resp)
+
+
+class Prediction(Resource):
 
     def post(self):
 
@@ -53,7 +111,7 @@ class process(Resource):
 
         # Payload for send_to_bucket function
         payload = {
-            "bucket_dir": "ORIGINALS",
+            "bucket_dir": bucket_path,
             "bucket_name": bucket_name,
             "img_bytes": image_base64,
             "uuid": generated_uuid
@@ -156,7 +214,8 @@ class process(Resource):
         }
 
         try:
-            response = requests.post(post_url, json=firestore_payload).json()
+            response = requests.post(
+                firestore_post_url, json=firestore_payload).json()
         except firebase_admin.exceptions.FirebaseError as fire_err:
             raise fire_err
 
@@ -171,7 +230,9 @@ class process(Resource):
         return jsonify(resp)
 
 
-api.add_resource(process, '/')
+api.add_resource(Uploads, '/user', '/user/<string:email>')
+api.add_resource(Prediction, '/')
+
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0',

@@ -50,7 +50,7 @@ const Hero = props => {
             distance="30px"
           >
             <Container>
-              <Row className="align-self-center justify-content-sm-center">
+              <Row className="align-self-center justify-content-center">
                 {!isAuthenticated && (
                   <a
                     className="cta-btn cta-btn--hero"
@@ -68,6 +68,11 @@ const Hero = props => {
                     Continue
                   </Link>
                 )}
+                <p className="hero-cta">
+                  <a className="cta-btn cta-btn--hero" href="#about">
+                    Learn more
+                  </a>
+                </p>
               </Row>
             </Container>
           </Fade>

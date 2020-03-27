@@ -80,7 +80,7 @@ function Results() {
                       marginTop: "5px"
                     }}
                   >
-                    <p style={{ fontSize: "14px" }}>Our ELA Conversion</p>
+                    <p style={{ fontSize: "14px" }}>Your Image</p>
                   </Row>
                 </React.Fragment>
               ) : prediction === "Tampered" ? (
@@ -94,7 +94,7 @@ function Results() {
                       marginTop: "5px"
                     }}
                   >
-                    <p style={{ fontSize: "14px" }}>Heatmap Produced</p>
+                    <p style={{ fontSize: "14px" }}>Your Image</p>
                   </Row>
                 </React.Fragment>
               ) : null}

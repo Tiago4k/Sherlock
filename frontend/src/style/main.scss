@@ -6,15 +6,16 @@
 @import "./base/typography";
 
 @import "./components/buttons";
-@import "./components/navbar";
+@import "./components/carousel";
 @import "./components/images";
+@import "./components/navbar";
 @import "./components/spinner";
 
 @import "./layout/footer";
 @import "./layout/sections";
 
+@import "./sections/analyse";
 @import "./sections/about";
 @import "./sections/hero";
 
 @import "./vendor/css/font-awesome.min.css";
-@import "./App.css";

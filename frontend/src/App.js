@@ -26,7 +26,7 @@ function App() {
   }
 
   return (
-    <div>
+    <React.Fragment>
       <GlobalProvider>
         <Router history={history}>
           <Switch>
@@ -36,7 +36,7 @@ function App() {
           </Switch>
         </Router>
       </GlobalProvider>
-    </div>
+    </React.Fragment>
   );
 }
 
