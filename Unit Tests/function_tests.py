@@ -12,19 +12,31 @@ from Backend.ELA_API.ela import convert_to_ela
 from Backend.Prediction_API.predict import get_prediction
 
 
-
 class TestPrediction(unittest.TestCase):
     def test_prediction(self):
         """
         Test that a prediction has been made.
+        This test is highly dependent on the model that has been produced.
+        If the model changes, the result of this test may change.
         """
-        pass
+        img_path = os.getcwd() + '/Unit Tests/Assets/test_prediction.jpg'
+        ela = convert_to_ela(img_path)
+        prediction = get_prediction(ela)
+
+        self.assertTrue((prediction != None) and (prediction != 0))
+
 
     def test_unable_predict(self):
         """
         Test that a prediction could not be made.
+        This test is highly dependent on the model that has been produced.
+        If the model changes, the result of this test may change.
         """
-        pass
+        img_path = os.getcwd() + '/Unit Tests/Assets/test_unpredictable.jpg'
+        ela = convert_to_ela(img_path)
+        prediction = get_prediction(ela)
+
+        self.assertTrue((prediction != None) and (prediction == 0))
 
 
 class TestEla(unittest.TestCase):
@@ -32,7 +44,10 @@ class TestEla(unittest.TestCase):
         """
         Test that an ela image as been produced.
         """
-        pass
+        img_path = os.getcwd() + '/Unit Tests/Assets/test_resize.jpg'
+        ela = convert_to_ela(img_path)
+
+        self.assertIn('ela', ela)
 
 
 class TestResize(unittest.TestCase):
@@ -106,11 +121,5 @@ class TestBase64(unittest.TestCase):
 
 if __name__ == "__main__":
    
-    
-    # img_path = os.getcwd() + '/Unit Tests/Assets/test_resize.jpg'
-    # img = Image.open(img_path)
-
-    # print(img.format)
-
     unittest.main()
 

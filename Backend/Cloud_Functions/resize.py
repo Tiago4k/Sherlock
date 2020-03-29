@@ -8,7 +8,8 @@ from flask import jsonify
 from imageio import imread
 from PIL import Image
 
-send_to_bucket_url = os.environ['BUCKET_URL']
+# Comment for unit testing
+# send_to_bucket_url = os.environ['BUCKET_URL']
 
 def main(request):
 
@@ -61,7 +62,9 @@ def process(img):
     # Encode resized_img and upload to Resized Bucket
     encoded_img = encode_base64(resized_img)
 
-    return encoded_img
+    # Uncomment for unit testing
+    return resized_img
+    # return encoded_img
 
 
 def resize_image(input_img):

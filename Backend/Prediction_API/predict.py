@@ -10,6 +10,7 @@ def get_prediction(path):
     """
 
     cwd = os.getcwd()
+    # weights_path = Path(cwd + '/Backend/Prediction_API/weights/')
     weights_path = Path(cwd + '/weights/')
 
     learn = load_learner(weights_path)
