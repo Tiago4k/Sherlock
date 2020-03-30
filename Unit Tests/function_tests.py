@@ -4,13 +4,11 @@ import unittest
 import json
 import imghdr
 from PIL import Image
- 
+
 sys.path.append(os.getcwd())
-
-from Backend.Cloud_Functions.resize import decode_base64, encode_base64, process, resize_image
-from Backend.ELA_API.ela import convert_to_ela
 from Backend.Prediction_API.predict import get_prediction
-
+from Backend.ELA_API.ela import convert_to_ela
+from Backend.Cloud_Functions.resize import decode_base64, encode_base64, process, resize_image
 
 class TestPrediction(unittest.TestCase):
     def test_prediction(self):
@@ -24,7 +22,6 @@ class TestPrediction(unittest.TestCase):
         prediction = get_prediction(ela)
 
         self.assertTrue((prediction != None) and (prediction != 0))
-
 
     def test_unable_predict(self):
         """
@@ -62,8 +59,8 @@ class TestResize(unittest.TestCase):
         current_dimension = img.size
 
         resized = resize_image(img)
-        self.assertIsNot(current_dimension, resized.size, msg=({'Old Dimension' : current_dimension, 'New Dimension': resized.size}))
-
+        self.assertIsNot(current_dimension, resized.size, msg=(
+            {'Old Dimension': current_dimension, 'New Dimension': resized.size}))
 
     def test_landscape(self):
         """
@@ -77,7 +74,6 @@ class TestResize(unittest.TestCase):
         self.assertIsNot(img.size, results.size)
         self.assertGreater(w, h)
 
-        
     def test_portrait(self):
         """
         Test that a portrait image has been rotated and has been resized.
@@ -102,7 +98,6 @@ class TestBase64(unittest.TestCase):
         result = encode_base64(img)
         self.assertEqual(type(result), bytes)
 
-
     def test_decoding(self):
         """
         Test that decoding has occurred.
@@ -110,16 +105,14 @@ class TestBase64(unittest.TestCase):
 
         with open(os.getcwd() + '/Unit Tests/Assets/base64.json', 'r') as base64:
             data = base64.read()
-        
+
         base64_img = json.loads(data)
 
         result = decode_base64(str(base64_img['base64_img']))
 
         self.assertEqual(result.format, "PNG")
-        
 
 
 if __name__ == "__main__":
-   
-    unittest.main()
 
+    unittest.main()
