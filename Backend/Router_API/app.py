@@ -56,7 +56,7 @@ class Uploads(Resource):
             # to iterate through.
             if(len(fire_resp['documents'])-i != 0):
                 payload = {
-                    'bucket_name': bucket_name,
+                    'bucket_name': fire_resp['documents'][i]['bucket_name'],
                     'filepath': bucket_path + '/' + fire_resp['documents'][i]['uuid']
                 }
 
@@ -159,6 +159,7 @@ class Prediction(Resource):
             else:
                 img_bytes = image_base64
 
+        # COMMENT THIS LINE OUT IF USING RESIZE
         img_bytes = image_base64
 
         # Payload for ELA container
@@ -182,9 +183,10 @@ class Prediction(Resource):
                 raise err
 
             data = response.json()
+            ela_bytes = data['img_bytes']
 
         payload_4 = {
-            'img_bytes': data['img_bytes'],
+            'img_bytes': ela_bytes,
             'uuid': generated_uuid
         }
 
@@ -224,6 +226,7 @@ class Prediction(Resource):
             'status': 200,
             'prediction': prediction,
             'confidence': confidence,
+            'ela_img': ela_bytes,
             'message': response['message']
         }
 
