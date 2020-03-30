@@ -22,7 +22,7 @@ function About() {
   return (
     <section id="about">
       <Container>
-        <span>About Sherlock</span>
+        <span>What is Sherlock?</span>
         <Row className="about-wrapper mt-5">
           <Col md={6} sm={12}>
             <Fade
