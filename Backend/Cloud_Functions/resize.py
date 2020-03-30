@@ -11,6 +11,7 @@ from PIL import Image
 # Comment for unit testing
 # send_to_bucket_url = os.environ['BUCKET_URL']
 
+
 def main(request):
 
     data = request.get_json()
@@ -63,8 +64,9 @@ def process(img):
     encoded_img = encode_base64(resized_img)
 
     # Uncomment for unit testing
-    return resized_img
-    # return encoded_img
+    # return resized_img
+
+    return encoded_img
 
 
 def resize_image(input_img):
