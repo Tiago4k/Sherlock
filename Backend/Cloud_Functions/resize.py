@@ -9,7 +9,7 @@ from imageio import imread
 from PIL import Image
 
 # Comment for unit testing
-# send_to_bucket_url = os.environ['BUCKET_URL']
+send_to_bucket_url = os.environ['BUCKET_URL']
 
 
 def main(request):
