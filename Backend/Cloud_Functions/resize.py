@@ -2,7 +2,6 @@ import os
 import base64
 from io import BytesIO
 
-import cv2
 import requests
 from flask import jsonify
 from imageio import imread
