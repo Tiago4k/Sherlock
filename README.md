@@ -2,9 +2,10 @@
 
 Sherlock is a web-based application that will detect fraudulant photos that users upload to the website.
 
-- Backend developed using Python and Flask
+- Backend developed using Python and Flask. 
+  -Backend being hosted on Google Cloud Platform, made possible through the use of containers and cloud functions.
 - ML model built using the Fastai library
-- Frontend developed using Reactjs
+- Frontend developed using Reactjs, hosted with Heroku.
 
 Accessible via:
 <br />
