@@ -2,8 +2,8 @@ import os
 
 # Root directories
 ROOT_PATH = '/Users/tiagoramalho/FinalYearProject/Datasets/CASIA/'
-PATH_TO_FAKES = ROOT_PATH + 'Tampered/'
-PATH_TO_REALS = ROOT_PATH + 'Authentic/'
+PATH_TO_FAKES = ROOT_PATH + 'Tp/'
+PATH_TO_REALS = ROOT_PATH + 'Au/'
 
 # New working directories
 cwd = os.getcwd()

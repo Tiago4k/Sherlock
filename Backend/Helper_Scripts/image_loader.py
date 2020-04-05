@@ -1,4 +1,5 @@
 import os
+import sys
 import random
 
 import cv2 as cv2
@@ -6,7 +7,9 @@ import numpy as np
 from imageio import imread
 from tqdm import tqdm
 
-from ..Constants import const
+sys.path.append(os.getcwd())
+
+from Constants import const
 
 
 def load_img_name_array(path_to_reals, path_to_fakes):
@@ -17,8 +20,8 @@ def load_img_name_array(path_to_reals, path_to_fakes):
     image_names = []
     for i in tqdm(range(0, len(real_images))):
         image_names.append(real_images[i])
-    for i in tqdm(range(0, len(tamp_images))):
-        image_names.append(tamp_images[i])
+    for j in tqdm(range(0, len(tamp_images))):
+        image_names.append(tamp_images[j])
 
     image_names = np.array(image_names)
     return image_names
@@ -46,8 +49,4 @@ def read_img(img_name, train_or_test):
     """Reads an image and resizes it accordingly"""
 
     img = cv2.imread(train_or_test + img_name)
-    return cv2.resize(img, (const.IMG_WIDTH, const.IMG_HEIGHT))
-
-
-if __name__ == '__main__':
-    pass
+    return cv2.resize(img)
