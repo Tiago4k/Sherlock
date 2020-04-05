@@ -24,8 +24,8 @@ Y = [0]*7492+[1]*5124
 # Stratifying so we have approximately the same percentage of samples for in the train/test/val set.
 
 #  Train/Test Split
-x_train, x_test, y_train, y_test = train_test_split(x_train,
-                                                    y_train,
+x_train, x_test, y_train, y_test = train_test_split(X,
+                                                    Y,
                                                     test_size=0.1,
                                                     stratify=Y)
 
