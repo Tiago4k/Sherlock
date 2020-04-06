@@ -2,14 +2,13 @@ import os
 import base64
 from io import BytesIO
 
-import cv2
 import requests
 from flask import jsonify
 from imageio import imread
 from PIL import Image
 
 # Comment for unit testing
-# send_to_bucket_url = os.environ['BUCKET_URL']
+send_to_bucket_url = os.environ['BUCKET_URL']
 
 
 def main(request):
