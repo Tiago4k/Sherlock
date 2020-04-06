@@ -1,8 +1,8 @@
 # Ignore Dataset folder
 Dataset
-Backend/ServerSide/Uploads/
 Backend/ELA_API/gcloudenv/
 Model Weights
+Experiments
 
 .vscode
 .DS_Store
