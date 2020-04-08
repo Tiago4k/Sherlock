@@ -15,7 +15,7 @@ import "bulma/css/bulma.css";
 
 const url = process.env.REACT_APP_API_URL;
 
-const Input = props => (
+const Input = (props) => (
   <input
     className="file-input"
     type="file"
@@ -39,16 +39,16 @@ function FileUpload() {
     email = user.email;
   }
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
   };
 
-  const submitForm = async e => {
+  const submitForm = async (e) => {
     e.preventDefault();
     try {
       // Send converted img to uploadToServer
-      await fileToBase64(filename, file).then(result => {
+      await fileToBase64(filename, file).then((result) => {
         uploadToServer(result);
       });
     } catch (err) {
@@ -57,11 +57,11 @@ function FileUpload() {
   };
 
   const fileToBase64 = (fname, filepath) => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let tempFile = new File([filepath], fname);
       let reader = new FileReader();
       // Read file content on file loaded event
-      reader.onload = function(event) {
+      reader.onload = function (event) {
         resolve(event.target.result);
       };
 
@@ -70,30 +70,30 @@ function FileUpload() {
     });
   };
 
-  const uploadToServer = async imgFile => {
+  const uploadToServer = async (imgFile) => {
     setShowLoading(true);
     const payload = {
       file: imgFile,
-      email: email
+      email: email,
     };
 
     const options = {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Methods": "GET, POST"
-      }
+        "Access-Control-Allow-Methods": "GET, POST",
+      },
     };
 
     try {
       const response = await axios.post(url, payload, options);
-
+      const elaImage = response.data.ela_img;
       const prediction = response.data.prediction;
       const confidence = response.data.confidence;
       setShowLoading(false);
       console.log("File Successfully Uploaded!");
       // calls updateStates() from GlobalContext to update results
-      updateStates(true, prediction, confidence, file, filename);
+      updateStates(true, prediction, confidence, file, filename, elaImage);
     } catch (err) {
       setShowLoading(false);
       if (err.response.status === 400) {

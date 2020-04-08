@@ -7,7 +7,7 @@ import ProgressBar from "./Progressbar/ProgressBar";
 // import NotFound from "../assets/NotFound404.png";
 
 function Results() {
-  const { results, uploadInfo } = useContext(GlobalContext);
+  const { results, uploadInfo, elaImage } = useContext(GlobalContext);
   const { prediction, confidence } = results;
   const { file } = uploadInfo;
 
@@ -38,18 +38,18 @@ function Results() {
       <Row
         style={{
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         {prediction === "Authentic" || prediction === "Tampered" ? (
           <React.Fragment>
-            <Col sm md={6} lg={6} xl={4}>
+            <Col sm md={6} lg={6} xl={5}>
               <ProgressBar
                 strokeColor={strokeColor}
                 percentage={Math.floor(conf)}
               />
             </Col>
-            <Col sm md={6} lg={6} xl={4}>
+            <Col sm md={6} lg={6} xl={7}>
               <span className="results-text">
                 What does this mean?
                 {prediction === "Authentic" ? (
@@ -68,37 +68,44 @@ function Results() {
                 ) : null}
               </span>
             </Col>
-            <Col style={{ textAlign: "center" }}>
-              {prediction === "Authentic" ? (
+            <Row className="mt-3">
+              <Col style={{ textAlign: "center" }}>
                 <React.Fragment>
-                  <Image className="images" src={URL.createObjectURL(file)} />
-                  {/* <Image className="images" src={NotFound} alt="Our Conversion." /> */}
+                  <Image
+                    className="images"
+                    src={URL.createObjectURL(file)}
+                    alt="Your image"
+                  />
                   <Row
                     style={{
                       alignSelf: "center",
                       justifyContent: "center",
-                      marginTop: "5px"
+                      marginTop: "5px",
                     }}
                   >
                     <p style={{ fontSize: "14px" }}>Your Image</p>
                   </Row>
                 </React.Fragment>
-              ) : prediction === "Tampered" ? (
+              </Col>
+              <Col style={{ textAlign: "center" }}>
                 <React.Fragment>
-                  <Image className="images" src={URL.createObjectURL(file)} />
-                  {/* <Image className="images" src={NotFound} alt="Our Conversion." /> */}
+                  <Image
+                    className="images__ela"
+                    src={`data:application/octet-stream;base64,${elaImage}`}
+                    alt="Our ELA Conversion."
+                  />
                   <Row
                     style={{
                       alignSelf: "center",
                       justifyContent: "center",
-                      marginTop: "5px"
+                      marginTop: "5px",
                     }}
                   >
-                    <p style={{ fontSize: "14px" }}>Your Image</p>
+                    <p style={{ fontSize: "14px" }}>Our ELA Conversion</p>
                   </Row>
                 </React.Fragment>
-              ) : null}
-            </Col>
+              </Col>
+            </Row>
           </React.Fragment>
         ) : (
           <span className="results-text">
