@@ -4,13 +4,14 @@ export default (state, action) => {
       return {
         results: {
           prediction: action.payload.prediction,
-          confidence: action.payload.confidence
+          confidence: action.payload.confidence,
         },
         uploadInfo: {
           file: action.payload.file,
-          filename: action.payload.filename
+          filename: action.payload.filename,
         },
-        uploaded: action.payload.uploaded
+        uploaded: action.payload.uploaded,
+        elaImage: action.payload.elaImage,
       };
     default:
       return state;

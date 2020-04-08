@@ -5,9 +5,10 @@ const initialState = {
   uploaded: false,
   uploadInfo: {
     file: "",
-    filename: "Choose File"
+    filename: "Choose File",
   },
-  results: { prediction: "", confidence: "" }
+  results: { prediction: "", confidence: "" },
+  elaImage: "",
 };
 
 // create context
@@ -17,10 +18,17 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
-  function updateStates(uploaded, prediction, confidence, file, filename) {
+  function updateStates(
+    uploaded,
+    prediction,
+    confidence,
+    file,
+    filename,
+    elaImage
+  ) {
     dispatch({
       type: "UPDATE_STATES",
-      payload: { uploaded, prediction, confidence, file, filename }
+      payload: { uploaded, prediction, confidence, file, filename, elaImage },
     });
   }
   return (
@@ -29,7 +37,8 @@ export const GlobalProvider = ({ children }) => {
         results: state.results,
         uploaded: state.uploaded,
         uploadInfo: state.uploadInfo,
-        updateStates
+        elaImage: state.elaImage,
+        updateStates,
       }}
     >
       {children}
