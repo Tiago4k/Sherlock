@@ -25,7 +25,7 @@ class Prediction(Resource):
         img_bytes = data['img_bytes']
 
         decoded_img = decode_base64(img_bytes)
-        # Image must first be saved to the local drive before being converted
+        # Image must first be saved to the local drive before a prediction can be made.
         decoded_img.save(uuid + '.png')
         img = uuid + '.png'
 

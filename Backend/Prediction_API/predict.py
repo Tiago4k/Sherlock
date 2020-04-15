@@ -16,7 +16,7 @@ def get_prediction(path):
     learn = load_learner(weights_path)
     img = open_image(path)
 
-    pred_class, pred_idx, confidence = learn.predict(img)
+    pred_class, _, confidence = learn.predict(img)
 
     if str(pred_class) == 'Tampered':
         conf = float(confidence[1])
