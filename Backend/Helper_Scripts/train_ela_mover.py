@@ -14,7 +14,7 @@ sys.path.insert(1, cwd + '/Backend/')
 
 def convert_all_to_ela(baseDir):
 
-    for root, _ ,files in os.walk(baseDir):
+    for root, _, files in os.walk(baseDir):
         for fname in tqdm(files):
             if fname != '.DS_Store':
                 img_path = os.path.join(root, fname)
@@ -28,6 +28,9 @@ def move_to_ela_folder(src, dest):
     for f in tqdm(folder):
         if 'ela' in f:
             shutil.move(src + f, dest + f)
+        if(os.path.isfile(src + f)):
+            if 'resaved' in f:
+                os.remove(src + f)
     print("Done!")
 
 
@@ -43,18 +46,12 @@ def delete_resaved_files(directory):
 
 
 if __name__ == "__main__":
- 
-    convert_all_to_ela(const.PATH_TO_TRAIN)
-    convert_all_to_ela(const.PATH_TO_TEST)
-    move_to_ela_folder(const.PATH_TO_TRAIN_REALS, const.PATH_TO_TRAIN_REALS_ELA)
-    move_to_ela_folder(const.PATH_TO_TRAIN_FAKES, const.PATH_TO_TRAIN_FAKES_ELA)
-    move_to_ela_folder(const.PATH_TO_TEST_REALS, const.PATH_TO_TEST_REALS_ELA)
-    move_to_ela_folder(const.PATH_TO_TEST_FAKES, const.PATH_TO_TEST_FAKES_ELA)
-
-    delete_resaved_files(const.PATH_TO_TEST_REALS)
-    delete_resaved_files(const.PATH_TO_TEST_FAKES)
-    delete_resaved_files(const.PATH_TO_TRAIN_REALS)
-    delete_resaved_files(const.PATH_TO_TRAIN_FAKES)
-    # delete_resaved_files(const.PATH_TO_VALID_REALS)
-    # delete_resaved_files(const.PATH_TO_VALID_FAKES)
-
+    pass
+    # convert_all_to_ela(const.PATH_TO_TRAIN)
+    # convert_all_to_ela(const.PATH_TO_TEST)
+    # move_to_ela_folder(const.PATH_TO_TRAIN_REALS,
+    #                    const.PATH_TO_TRAIN_REALS_ELA)
+    # move_to_ela_folder(const.PATH_TO_TRAIN_FAKES,
+    #                    const.PATH_TO_TRAIN_FAKES_ELA)
+    # move_to_ela_folder(const.PATH_TO_TEST_REALS, const.PATH_TO_TEST_REALS_ELA)
+    # move_to_ela_folder(const.PATH_TO_TEST_FAKES, const.PATH_TO_TEST_FAKES_ELA)
