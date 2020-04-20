@@ -18,6 +18,10 @@ Accessible via:
 <br />
 https://uk-sherlock.herokuapp.com/
 
+Dummy data to test system available at:
+<br />
+https://storage.googleapis.com/sherlock-ux-images/Sherlock_Images.zip
+
 <p>
 Project Structure:
 
