@@ -34,11 +34,12 @@ function About() {
             >
               <div className="about-wrapper__info">
                 <p className="about-wrapper__info-text">
-                  Sherlock is an AI detective. Sherlock detects forgery in
-                  images by utilising Deep Neural Networks and Error Level
-                  Analysis to provide a prediction on whether an image have been
-                  tampered with or not. Simply upload an image and receive a
-                  prediction in seconds.
+                  Sherlock is an AI detective.
+                  <br />
+                  Sherlock detects forgery in images by utilising Deep Neural
+                  Networks and Error Level Analysis to provide a prediction on
+                  whether an image have been tampered with or not. <br />
+                  Simply upload an image and receive a prediction in seconds.
                 </p>
                 <p className="about-wrapper__info-text">
                   This project have been developed in collaboration with Kainos

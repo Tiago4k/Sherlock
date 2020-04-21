@@ -53,14 +53,14 @@ function Results() {
               <span className="results-text">
                 What does this mean?
                 {prediction === "Authentic" ? (
-                  <p className="text-align-left">
+                  <p className="text-align-center">
                     Sherlock is {conf}% sure that this image is Authentic. Low
                     likehood of having been tampered with. <br />
                     Sherlock produced this ELA {"(Error Level Analysis)"} image
                     for the prediction.
                   </p>
                 ) : prediction === "Tampered" ? (
-                  <p className="text-align-left">
+                  <p className="text-align-center">
                     Sherlock is {conf}% sure that this image has been Tampered.
                     Here is a heatmap that highlights regions in the image that
                     Sherlock focused on while trying to make a prediction.
@@ -110,7 +110,7 @@ function Results() {
         ) : (
           <span className="results-text">
             What does this mean?
-            <p className="text-align-left">
+            <p className="text-align-center">
               Sherlock wasn't able to confidently make a prediction on this
               image therefore no prediction has been.
             </p>
