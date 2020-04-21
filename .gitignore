@@ -3,7 +3,7 @@
 /Backend/ELA_API/gcloudenv/
 /Backend/Prediction_API/weights/
 /Model Weights
-/Experiments
+/Experiments/Fastai/
 
 .vscode
 .DS_Store
