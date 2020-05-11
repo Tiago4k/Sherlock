@@ -89,17 +89,18 @@ class Prediction(Resource):
 
     def post(self):
 
-        email = ''
         data = request.get_json()
+        email = None
 
         # Check if the request is empty.
-        if data['file'] == None:
+        if 'file' not in data:
             raise BadRequest()
 
-        if 'email' not in data:
-            email = 'testing_email@test.com'
-        else:
+        # Check if their is an email
+        if 'email' in data:
             email = data['email']
+        else:
+            email = 'testing_mode@test.com'
 
         image_str = data['file']
         image_str = image_str.split(',')
