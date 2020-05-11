@@ -96,7 +96,7 @@ class Prediction(Resource):
         if data['file'] == None:
             raise BadRequest()
 
-        if data['email'] == None:
+        if 'email' not in data:
             email = 'testing_email@test.com'
         else:
             email = data['email']
