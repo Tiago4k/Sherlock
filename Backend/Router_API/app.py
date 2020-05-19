@@ -2,7 +2,6 @@ import os
 import uuid
 from configparser import ConfigParser
 
-import firebase_admin
 import requests
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -89,17 +88,18 @@ class Prediction(Resource):
 
     def post(self):
 
-        email = ''
         data = request.get_json()
+        email = None
 
         # Check if the request is empty.
-        if data['file'] == None:
+        if 'file' not in data:
             raise BadRequest()
 
-        if data['email'] == None:
-            email = 'testing_email@test.com'
-        else:
+        # Check if their is an email
+        if 'email' in data:
             email = data['email']
+        else:
+            email = 'testing_mode@test.com'
 
         image_str = data['file']
         image_str = image_str.split(',')
@@ -132,16 +132,17 @@ class Prediction(Resource):
         if data['status'] != 201:
             raise InternalServerError()
 
-        # Payload for Resize function
-        payload_2 = {
-            'bucket_name': bucket_name,
-            'img_bytes': image_base64,
-            'uuid': generated_uuid
-        }
-
         # Set resize flag to false if you do NOT want to run the resize function
         if resize_flag:
-            # Check if the service is up before sending post request
+
+            # Payload for Resize function
+            payload_2 = {
+                'bucket_name': bucket_name,
+                'img_bytes': image_base64,
+                'uuid': generated_uuid
+            }
+
+           # Check if the service is up before sending post request
             try:
                 response = requests.head(resize_url)
             except requests.RequestException as err:
@@ -215,11 +216,8 @@ class Prediction(Resource):
             'bucket_name': bucket_name
         }
 
-        try:
-            response = requests.post(
-                firestore_post_url, json=firestore_payload).json()
-        except firebase_admin.exceptions.FirebaseError as fire_err:
-            raise fire_err
+        response = requests.post(
+            firestore_post_url, json=firestore_payload).json()
 
         # Response to be sent back to the Client.
         resp = {

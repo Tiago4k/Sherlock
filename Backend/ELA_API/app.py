@@ -1,6 +1,7 @@
 import os
 import base64
 from io import BytesIO
+from configparser import ConfigParser
 
 import requests
 from flask import Flask, jsonify, request
@@ -15,7 +16,11 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
-send_to_bucket_url = 'https://us-central1-sherlock-267913.cloudfunctions.net/send_to_bucket'
+config_path = 'config/config.ini'
+config = ConfigParser()
+config.read(config_path)
+
+send_to_bucket_url = config.get('instance', 'send_to_bucket')
 
 
 class Converted(Resource):
@@ -71,7 +76,7 @@ def decode_base64(image_str):
 
 
 def encode_base64(image):
-    """Encodes an image into base64 with a file format JPEG
+    """Encodes an image into base64 with a file format PNG
     """
     buffered = BytesIO()
     image.save(buffered, format="PNG")
